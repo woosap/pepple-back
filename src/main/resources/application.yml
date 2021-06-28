@@ -9,4 +9,6 @@ spring:
     generate-ddl: true
     hibernate:
       ddl-auto: create-drop
+    database: mysql
+    database-platform: org.hibernate.dialect.MySQL8Dialect
 
