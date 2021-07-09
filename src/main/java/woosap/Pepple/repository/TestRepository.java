@@ -9,6 +9,6 @@ import woosap.Pepple.entity.TestEntity;
 @Repository
 public interface TestRepository extends JpaRepository<TestEntity, String> {
 
-   Optional<TestEntity> findById(Long id);
+    Optional<TestEntity> findById(Long id);
 
 }

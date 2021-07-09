@@ -9,6 +9,7 @@ import lombok.Setter;
 @Setter
 @Getter
 public class TestEntity {
+
     @Id
     private Long id;
 }
