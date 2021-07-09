@@ -12,7 +12,7 @@ import org.springframework.stereotype.Service;
 @Service
 public class SecurityServiceImpl implements SecurityService {
 
-    public static final String SECRET_KEY = "a1b2c3d4e5f6g7h8i9";
+    public static final String SECRET_KEY = "aasjjkjaskjdl1k2naskjkdakj34ckhgkgkfyufyt8sa";
 
     // 서버에서 토큰을 발행하는 역할
     @Override
