@@ -1,15 +1,20 @@
 package woosap.Pepple.config;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.web.cors.CorsUtils;
+import woosap.Pepple.service.CustomOAuth2UserService;
 
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true)
+@RequiredArgsConstructor
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
+
+    private final CustomOAuth2UserService oAuth2UserService;
 
     @Override
     public void configure(WebSecurity web) throws Exception {
@@ -49,7 +54,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                     .baseUri("/oauth2/authorize")
                     .and()
                 .redirectionEndpoint()
-                    .baseUri("/oauth2/callback/*");
-
+                    .baseUri("/oauth2/callback/*")
+                    .and()
+                .userInfoEndpoint()
+                    .userService(oAuth2UserService);
     }
 }

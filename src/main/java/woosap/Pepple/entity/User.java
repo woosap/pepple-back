@@ -9,7 +9,6 @@ import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.JoinColumns;
 import woosap.Pepple.entity.type.Job;
 
 @Entity
@@ -17,7 +16,7 @@ public class User {
 
     @Id
     @Column(name = "user_id")
-    private String userId;  //could be email or phone number
+    private Long userId;
 
     // nickname -> should not be same
     @Column(nullable = false, unique = true)
