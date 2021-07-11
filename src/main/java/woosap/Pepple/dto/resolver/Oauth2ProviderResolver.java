@@ -1,6 +1,7 @@
 package woosap.Pepple.dto.resolver;
 
 import java.util.Map;
+import org.springframework.security.oauth2.core.OAuth2AuthenticationException;
 import woosap.Pepple.dto.oauth2.GithubUserInfo;
 import woosap.Pepple.dto.oauth2.GoogleUserInfo;
 import woosap.Pepple.dto.oauth2.KakaoUserInfo;
@@ -21,8 +22,10 @@ public class Oauth2ProviderResolver {
             return new GithubUserInfo(this.attributes);
         } else if (this.provider.equals(Constants.GOOGLE)) {
             return new GoogleUserInfo(this.attributes);
-        } else {
+        } else if (this.provider.equals(Constants.KAKAO)) {
             return new KakaoUserInfo(this.attributes);
+        } else {
+            throw new OAuth2AuthenticationException("This provider is not supported");
         }
     }
 }
