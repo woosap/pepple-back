@@ -17,4 +17,9 @@ public class UserServiceImpl implements UserService{
     public User join(User user) {
         return userRepository.save(user);
     }
+
+    @Override
+    public Boolean nicknameDuplicateCheck(String nickname) {
+        return userRepository.existsByNickname(nickname);
+    }
 }
