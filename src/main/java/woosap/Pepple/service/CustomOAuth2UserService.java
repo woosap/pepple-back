@@ -10,7 +10,7 @@ import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Service;
 import woosap.Pepple.dto.SessionSaveInfo;
 import woosap.Pepple.dto.oauth2.Oauth2Info;
-import woosap.Pepple.dto.resolver.Oauth2ProviderResolver;
+import woosap.Pepple.util.resolver.Oauth2ProviderResolver;
 import woosap.Pepple.entity.User;
 import woosap.Pepple.repository.UserRepository;
 import woosap.Pepple.util.Constants;

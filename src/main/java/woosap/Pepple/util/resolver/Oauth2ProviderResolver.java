@@ -1,4 +1,4 @@
-package woosap.Pepple.dto.resolver;
+package woosap.Pepple.util.resolver;
 
 import java.util.Map;
 import org.springframework.security.oauth2.core.OAuth2AuthenticationException;
