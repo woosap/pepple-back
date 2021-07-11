@@ -31,8 +31,6 @@ public class UserController {
             return new ResponseEntity<>(responseDTO, HttpStatus.BAD_REQUEST);
         }
         userDTO.setUserId(savedInfo.getUserId());
-        userDTO.setImageUrl(savedInfo.getImageUrl());
-        userDTO.setNickname(savedInfo.getNickname());
 
         User savedUser = userService.join(userDTO.toEntity());
 
