@@ -40,7 +40,6 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
 
     private void saveOrToGetAdditionalInfo(Oauth2Info userInfo) {
         Optional<User> user = userRepository.findById(userInfo.getId());
-
         if (user.isEmpty()) {
             // session을 사용하는 이유 - 추가 정보를 받을 때, 기존에 소셜로그인을 통해서 들어왔다는 것을 증명해야 하기 때문에
             session.setAttribute(Constants.SESSION_KEY, new SessionSaveInfo(userInfo.getId(),
