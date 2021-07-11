@@ -7,6 +7,7 @@ import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.web.cors.CorsUtils;
+import woosap.Pepple.config.auth.OnOAuth2FailureHandler;
 import woosap.Pepple.config.auth.OnOAuth2SuccessHandler;
 import woosap.Pepple.service.CustomOAuth2UserService;
 
@@ -17,6 +18,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     private final CustomOAuth2UserService oAuth2UserService;
     private final OnOAuth2SuccessHandler oAuth2SuccessHandler;
+    private final OnOAuth2FailureHandler oAuth2FailureHandler;
 
     @Override
     public void configure(WebSecurity web) throws Exception {
@@ -61,6 +63,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .userInfoEndpoint()
                     .userService(oAuth2UserService)
                     .and()
-                .successHandler(oAuth2SuccessHandler);
+                .successHandler(oAuth2SuccessHandler)
+                .failureHandler(oAuth2FailureHandler);
     }
 }
