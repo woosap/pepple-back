@@ -3,10 +3,10 @@ package woosap.Pepple.dto.oauth2;
 import java.util.Map;
 
 public abstract class Oauth2Info {
-    public Map<String, Object> attributes;
-    public String id;
-    public String nickname;
-    public String imagePath;
+    private Map<String, Object> attributes;
+    private String id;
+    private String nickname;
+    private String imagePath;
 
     public Oauth2Info(Map<String, Object> attributes) {
         this.attributes = attributes;

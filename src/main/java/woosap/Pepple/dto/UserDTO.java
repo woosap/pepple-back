@@ -6,6 +6,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import woosap.Pepple.entity.User;
 import woosap.Pepple.entity.type.Job;
 
 @Getter
@@ -22,4 +23,8 @@ public class UserDTO {
     private Job job;
 
     private List<String> snsList;
+
+    public User toEntity() {
+        return new User(this.userId, this.nickname, this.imageUrl, this.job, this.snsList);
+    }
 }
