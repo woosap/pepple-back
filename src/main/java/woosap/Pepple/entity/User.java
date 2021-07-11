@@ -16,7 +16,7 @@ public class User {
 
     @Id
     @Column(name = "user_id")
-    private Long userId;
+    private String userId;
 
     // nickname -> should not be same
     @Column(nullable = false, unique = true)

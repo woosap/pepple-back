@@ -4,7 +4,7 @@ import java.util.Map;
 
 public abstract class Oauth2Info {
     public Map<String, Object> attributes;
-    public Long id;
+    public String id;
     public String nickname;
     public String imagePath;
 
@@ -16,7 +16,7 @@ public abstract class Oauth2Info {
         return this.attributes;
     }
 
-    public abstract Long getId();
+    public abstract String getId();
 
     public abstract String getNickname();
 
