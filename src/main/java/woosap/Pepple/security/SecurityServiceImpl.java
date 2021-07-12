@@ -7,12 +7,16 @@ import java.security.Key;
 import java.util.Date;
 import javax.crypto.spec.SecretKeySpec;
 import javax.xml.bind.DatatypeConverter;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+
+
 
 @Service
 public class SecurityServiceImpl implements SecurityService {
 
-    public static final String SECRET_KEY = "aasjjkjaskjdl1k2naskjkdakj34ckhgkgkfyufyt8sa";
+    @Value("${secret_key}")
+    private String secret_key;
 
     // 서버에서 토큰을 발행하는 역할
     @Override
@@ -23,7 +27,7 @@ public class SecurityServiceImpl implements SecurityService {
         }
         // 토큰을 서명하기 위해 사용할 알고리즘 선택
         SignatureAlgorithm signatureAlgorithm = SignatureAlgorithm.HS256;
-        byte[] secretKeyBytes = DatatypeConverter.parseBase64Binary(SECRET_KEY);
+        byte[] secretKeyBytes = DatatypeConverter.parseBase64Binary(secret_key);
         Key signingKey = new SecretKeySpec(secretKeyBytes, signatureAlgorithm.getJcaName());
         return Jwts.builder()
             .setSubject(subject)
@@ -36,7 +40,7 @@ public class SecurityServiceImpl implements SecurityService {
    @Override
     public String getSubject(String token) {
         Claims claims = Jwts.parserBuilder()
-            .setSigningKey(DatatypeConverter.parseBase64Binary(SECRET_KEY))
+            .setSigningKey(DatatypeConverter.parseBase64Binary(secret_key))
             .build()
             .parseClaimsJws(token)
             .getBody();
