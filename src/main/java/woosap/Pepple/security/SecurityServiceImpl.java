@@ -16,19 +16,17 @@ public class SecurityServiceImpl implements SecurityService {
 
     // 서버에서 토큰을 발행하는 역할
     @Override
-    public String createToken(String subjet, long ttlMillis) {
+    public String createToken(String subject, long ttlMillis) {
         if (ttlMillis < 0) {
             throw new RuntimeException(
                 "Expiry time must be greater than Zero : [" + ttlMillis + "] ");
-
         }
         // 토큰을 서명하기 위해 사용할 알고리즘 선택
         SignatureAlgorithm signatureAlgorithm = SignatureAlgorithm.HS256;
-
         byte[] secretKeyBytes = DatatypeConverter.parseBase64Binary(SECRET_KEY);
         Key signingKey = new SecretKeySpec(secretKeyBytes, signatureAlgorithm.getJcaName());
         return Jwts.builder()
-            .setSubject(subjet)
+            .setSubject(subject)
             .signWith(signingKey, signatureAlgorithm)
             .setExpiration(new Date(System.currentTimeMillis() + ttlMillis))
             .compact();
