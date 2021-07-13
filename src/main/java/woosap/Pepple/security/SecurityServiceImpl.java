@@ -26,9 +26,14 @@ import org.springframework.stereotype.Service;
 @Component
 public class SecurityServiceImpl implements SecurityService {
 
-    private String secret_key = "aasjjkjaskjdl1k2naskjkdakj34ckhgkgkfyufyt8sa";
+    @Value("${jwt.secret_key}")
+    private String secret_key;
 
-    private long tokenValidTime = 180 * 60 * 1000L;
+    @Value("$(jwt.access_tokenValidTime}")
+    private long access_TokenValidTime;
+
+    @Value("${jwt.refresh_TokenValidTime}")
+    private long refresh_TokenValidTime;
 
     private final UserDetailsService userDetailsService;
 
@@ -44,7 +49,20 @@ public class SecurityServiceImpl implements SecurityService {
             .setSubject(subject)
             .setIssuedAt(now)
             .signWith(signingKey, signatureAlgorithm)
-            .setExpiration(new Date(now.getTime() + tokenValidTime))
+            .setExpiration(new Date(now.getTime() + access_TokenValidTime))
+            .compact();
+    }
+
+    public String refreshToken(String value) {
+        SignatureAlgorithm signatureAlgorithm = SignatureAlgorithm.HS256;
+        byte[] secretKeyBytes = DatatypeConverter.parseBase64Binary(secret_key);
+        Key signingKey = new SecretKeySpec(secretKeyBytes, signatureAlgorithm.getJcaName());
+        Date now = new Date();
+        return Jwts.builder()
+            .setSubject(value)
+            .setIssuedAt(now)
+            .signWith(signingKey, signatureAlgorithm)
+            .setExpiration(new Date(now.getTime() + refresh_TokenValidTime))
             .compact();
     }
 
