@@ -19,7 +19,7 @@ public class SecurityController {
     // 인자를 받고 서버에서 토큰을 발행시켜줌
     @GetMapping("/gen/token")
     public Map<String, Object> genToken(@RequestParam(value = "subject") String subject) {
-        String token = securityService.createToken(subject, (30 * 1000 * 60));
+        String token = securityService.createToken(subject);
         Map<String, Object> map = new LinkedHashMap<>();
         map.put("result", token);
         return map;

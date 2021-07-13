@@ -17,8 +17,7 @@ import javax.xml.bind.DatatypeConverter;
 @Component
 public class SecurityAspect {
 
-    @Value("${secret_key}")
-    private String secret_key;
+    private String secret_key = "aasjjkjaskjdl1k2naskjkdakj34ckhgkgkfyufyt8sa";
 
     @Before("@annotation(tokenRequired)")
     public void authenticateWithToken(TokenRequired tokenRequired) {

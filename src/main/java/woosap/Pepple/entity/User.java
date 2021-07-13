@@ -1,5 +1,6 @@
 package woosap.Pepple.entity;
 
+import java.util.Collection;
 import java.util.List;
 import javax.persistence.CollectionTable;
 import javax.persistence.Column;
@@ -10,9 +11,12 @@ import javax.persistence.Enumerated;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 import woosap.Pepple.entity.type.Job;
 
 @Entity
@@ -20,7 +24,8 @@ import woosap.Pepple.entity.type.Job;
 @NoArgsConstructor
 @Getter
 @Setter
-public class User {
+@Builder
+public class User implements UserDetails {
 
     @Id
     @Column(name = "user_id")
@@ -39,4 +44,39 @@ public class User {
     @ElementCollection
     @CollectionTable(name ="sns_list", joinColumns = @JoinColumn(name = "userId"))
     private List<String> snsList;
+
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return null;
+    }
+
+    @Override
+    public String getPassword() {
+        return null;
+    }
+
+    @Override
+    public String getUsername() {
+        return userId;
+    }
+
+    @Override
+    public boolean isAccountNonExpired() {
+        return false;
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return false;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return false;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return false;
+    }
 }
