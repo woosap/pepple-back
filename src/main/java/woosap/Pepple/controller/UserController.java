@@ -1,23 +1,22 @@
 package woosap.Pepple.controller;
 
-import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.BeanUtils;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import woosap.Pepple.dto.ResponseDTO;
 import woosap.Pepple.dto.SessionSaveInfo;
+import woosap.Pepple.dto.TokenDTO;
 import woosap.Pepple.dto.UserDTO;
 import woosap.Pepple.entity.User;
-import woosap.Pepple.repository.UserRepository;
-import woosap.Pepple.security.SecurityServiceImpl;
+import woosap.Pepple.security.TokenServiceImpl;
 import woosap.Pepple.service.UserServiceImpl;
 import woosap.Pepple.util.resolver.SavedInfo;
 
@@ -28,26 +27,40 @@ import woosap.Pepple.util.resolver.SavedInfo;
 public class UserController {
 
     private final UserServiceImpl userService;
-    private final UserRepository userRepository;
-    private final SecurityServiceImpl securityServiceImpl;
+    private final TokenServiceImpl tokenService;
+
+    @GetMapping("/user")
+    public ResponseEntity<?> getJWTToken(@SavedInfo SessionSaveInfo savedInfo, HttpServletRequest request) {
+
+        if (savedInfo == null) {
+            return new ResponseEntity<>(new ResponseDTO("잘못된 접근입니다", false),
+                HttpStatus.BAD_REQUEST);
+        }
+        String token = tokenService.createToken(savedInfo.getUserId());
+        request.getSession().invalidate();
+        return new ResponseEntity<>(new TokenDTO(token), HttpStatus.CREATED);
+    }
+
 
     @PostMapping("/user")
-    public ResponseEntity<ResponseDTO> joinWithDetails(@SavedInfo SessionSaveInfo savedInfo, @RequestBody UserDTO userDTO,
+    public ResponseEntity<ResponseDTO> joinWithDetails(@SavedInfo SessionSaveInfo savedInfo, UserDTO userDTO,
                                                         HttpServletRequest request) {
-
         if (savedInfo == null) {
             ResponseDTO responseDTO = new ResponseDTO("잘못된 접근입니다", false);
             return new ResponseEntity<>(responseDTO, HttpStatus.BAD_REQUEST);
         }
         userDTO.setUserId(savedInfo.getUserId());
 
-        User savedUser = userService.join(userDTO.toEntity());
+        User user = new User();
+
+        BeanUtils.copyProperties(userDTO, user);
+
+        User savedUser = userService.join(user);
 
         if (savedUser == null) {
             ResponseDTO responseDTO = new ResponseDTO("데이터베이스 에러", false);
             return new ResponseEntity<>(responseDTO, HttpStatus.INTERNAL_SERVER_ERROR);
         }
-        request.getSession().invalidate();
         ResponseDTO responseDTO = new ResponseDTO("회원가입에 성공하였습니다", true);
         return new ResponseEntity<>(responseDTO, HttpStatus.CREATED);
     }

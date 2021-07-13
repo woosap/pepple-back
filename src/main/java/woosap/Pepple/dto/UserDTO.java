@@ -1,5 +1,6 @@
 package woosap.Pepple.dto;
 
+import java.io.Serializable;
 import java.util.List;
 
 import lombok.AllArgsConstructor;
@@ -13,7 +14,7 @@ import woosap.Pepple.entity.type.Job;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class UserDTO {
+public class UserDTO implements Serializable {
     private String userId;
 
     private String nickname;
@@ -24,7 +25,4 @@ public class UserDTO {
 
     private List<String> snsList;
 
-    public User toEntity() {
-        return new User(this.userId, this.nickname, this.imageUrl, this.job, this.snsList);
-    }
 }

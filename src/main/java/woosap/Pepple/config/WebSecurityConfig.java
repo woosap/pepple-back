@@ -1,6 +1,7 @@
 package woosap.Pepple.config;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.context.annotation.Bean;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
@@ -10,8 +11,8 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 import org.springframework.web.cors.CorsUtils;
 import woosap.Pepple.config.auth.OnOAuth2FailureHandler;
 import woosap.Pepple.config.auth.OnOAuth2SuccessHandler;
-import woosap.Pepple.security.SecurityFilter;
-import woosap.Pepple.security.SecurityServiceImpl;
+import woosap.Pepple.security.TokenFilter;
+import woosap.Pepple.security.TokenServiceImpl;
 import woosap.Pepple.service.CustomOAuth2UserService;
 
 @EnableWebSecurity
@@ -22,7 +23,12 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     private final CustomOAuth2UserService oAuth2UserService;
     private final OnOAuth2SuccessHandler oAuth2SuccessHandler;
     private final OnOAuth2FailureHandler oAuth2FailureHandler;
-    private final SecurityServiceImpl securityServiceImpl;
+
+
+    @Bean
+    public TokenFilter tokenFilter() {
+        return new TokenFilter();
+    }
 
     @Override
     public void configure(WebSecurity web) throws Exception {
@@ -45,6 +51,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         http
             .httpBasic()
                 .disable()
+            .csrf()
+                .disable()
             .formLogin()
                 .disable()
             .cors()
@@ -52,7 +60,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
             .authorizeRequests()
                 .requestMatchers(CorsUtils::isPreFlightRequest)
                     .permitAll()
-                .antMatchers("/auth/**", "/oauth2/**", "/api/user", "/api/nickname")
+                .antMatchers("/auth/**", "/oauth2/**", "/api/user", "/api/nickname", "/error/**")
                     .permitAll()
                 .anyRequest()
                     .authenticated()
@@ -69,8 +77,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                     .and()
                 .successHandler(oAuth2SuccessHandler)
                 .failureHandler(oAuth2FailureHandler)
-            .and()
-            .addFilterBefore(new SecurityFilter(securityServiceImpl),
+                .and()
+            .addFilterBefore(tokenFilter(),
                 UsernamePasswordAuthenticationFilter.class);
     }
 }

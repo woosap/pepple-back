@@ -5,26 +5,23 @@ import io.jsonwebtoken.Jws;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import java.security.Key;
-import java.util.Base64;
 import java.util.Date;
-import javax.annotation.PostConstruct;
 import javax.crypto.spec.SecretKeySpec;
 import javax.servlet.http.HttpServletRequest;
 import javax.xml.bind.DatatypeConverter;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Value;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Service;
 
 
 @RequiredArgsConstructor
+@Slf4j
 @Component
-public class SecurityServiceImpl implements SecurityService {
+public class TokenServiceImpl implements TokenService {
 
     @Value("${jwt.secret_key}")
     private String secret_key;
@@ -79,7 +76,7 @@ public class SecurityServiceImpl implements SecurityService {
 
     @Override
     public String resolveToken(HttpServletRequest request) {
-        return request.getHeader("AUTH-TOKEN");
+        return request.getHeader("Authorization");
     }
 
     @Override
@@ -91,12 +88,12 @@ public class SecurityServiceImpl implements SecurityService {
     @Override
     public boolean validToken(String jwtToken) {
         try {
-            Jws<Claims> claims = Jwts.parser().setSigningKey(secret_key).parseClaimsJws(jwtToken);
+            Jws<Claims> claims = Jwts.parserBuilder().setSigningKey(secret_key)
+                .build().parseClaimsJws(jwtToken);
             return !claims.getBody().getExpiration().before(new Date());
         } catch (Exception e) {
+            log.error("유효하지 않은 토큰");
             return false;
         }
     }
-
-
 }
