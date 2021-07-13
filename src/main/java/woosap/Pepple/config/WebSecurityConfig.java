@@ -6,9 +6,12 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.cors.CorsUtils;
 import woosap.Pepple.config.auth.OnOAuth2FailureHandler;
 import woosap.Pepple.config.auth.OnOAuth2SuccessHandler;
+import woosap.Pepple.security.SecurityFilter;
+import woosap.Pepple.security.SecurityServiceImpl;
 import woosap.Pepple.service.CustomOAuth2UserService;
 
 @EnableWebSecurity
@@ -19,6 +22,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     private final CustomOAuth2UserService oAuth2UserService;
     private final OnOAuth2SuccessHandler oAuth2SuccessHandler;
     private final OnOAuth2FailureHandler oAuth2FailureHandler;
+    private final SecurityServiceImpl securityServiceImpl;
 
     @Override
     public void configure(WebSecurity web) throws Exception {
@@ -64,6 +68,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                     .userService(oAuth2UserService)
                     .and()
                 .successHandler(oAuth2SuccessHandler)
-                .failureHandler(oAuth2FailureHandler);
+                .failureHandler(oAuth2FailureHandler)
+            .and()
+            .addFilterBefore(new SecurityFilter(securityServiceImpl),
+                UsernamePasswordAuthenticationFilter.class);
     }
 }
