@@ -12,18 +12,18 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.filter.GenericFilterBean;
 
 @RequiredArgsConstructor
-public class SecurityFilter extends GenericFilterBean {
+public class TokenFilter extends GenericFilterBean {
 
-    private final SecurityServiceImpl securityServiceImpl;
+    private final TokenServiceImpl tokenService;
 
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
         throws IOException, ServletException {
 
-        String token = securityServiceImpl.resolveToken((HttpServletRequest) request);
+        String token = tokenService.resolveToken((HttpServletRequest) request);
 
-        if (token != null && securityServiceImpl.validToken(token)) {
-            Authentication authentication = securityServiceImpl.getAuthentication(token);
+        if (token != null && tokenService.validToken(token)) {
+            Authentication authentication = tokenService.getAuthentication(token);
             SecurityContextHolder.getContext().setAuthentication(authentication);
         }
         chain.doFilter(request, response);

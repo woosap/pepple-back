@@ -1,6 +1,5 @@
 package woosap.Pepple.controller;
 
-import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -17,7 +16,7 @@ import woosap.Pepple.dto.SessionSaveInfo;
 import woosap.Pepple.dto.UserDTO;
 import woosap.Pepple.entity.User;
 import woosap.Pepple.repository.UserRepository;
-import woosap.Pepple.security.SecurityServiceImpl;
+import woosap.Pepple.security.TokenServiceImpl;
 import woosap.Pepple.service.UserServiceImpl;
 import woosap.Pepple.util.resolver.SavedInfo;
 
@@ -29,7 +28,7 @@ public class UserController {
 
     private final UserServiceImpl userService;
     private final UserRepository userRepository;
-    private final SecurityServiceImpl securityServiceImpl;
+    private final TokenServiceImpl securityServiceImpl;
 
     @PostMapping("/user")
     public ResponseEntity<ResponseDTO> joinWithDetails(@SavedInfo SessionSaveInfo savedInfo, @RequestBody UserDTO userDTO,

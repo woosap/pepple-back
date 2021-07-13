@@ -5,7 +5,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 
 @Service
-public interface SecurityService {
+public interface TokenService {
 
     // 토큰 생성
     String createToken(String subject);

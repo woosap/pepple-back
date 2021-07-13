@@ -10,8 +10,8 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 import org.springframework.web.cors.CorsUtils;
 import woosap.Pepple.config.auth.OnOAuth2FailureHandler;
 import woosap.Pepple.config.auth.OnOAuth2SuccessHandler;
-import woosap.Pepple.security.SecurityFilter;
-import woosap.Pepple.security.SecurityServiceImpl;
+import woosap.Pepple.security.TokenFilter;
+import woosap.Pepple.security.TokenServiceImpl;
 import woosap.Pepple.service.CustomOAuth2UserService;
 
 @EnableWebSecurity
@@ -22,7 +22,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     private final CustomOAuth2UserService oAuth2UserService;
     private final OnOAuth2SuccessHandler oAuth2SuccessHandler;
     private final OnOAuth2FailureHandler oAuth2FailureHandler;
-    private final SecurityServiceImpl securityServiceImpl;
+    private final TokenServiceImpl tokenService;
 
     @Override
     public void configure(WebSecurity web) throws Exception {
@@ -70,7 +70,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .successHandler(oAuth2SuccessHandler)
                 .failureHandler(oAuth2FailureHandler)
             .and()
-            .addFilterBefore(new SecurityFilter(securityServiceImpl),
+            .addFilterBefore(new TokenFilter(tokenService),
                 UsernamePasswordAuthenticationFilter.class);
     }
 }
