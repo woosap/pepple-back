@@ -16,6 +16,6 @@ public class CustomJwtUserService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        return userRepository.findById(username).orElseThrow(() -> new UsernameNotFoundException("사용자를 찾을수 없습니다"));
+        return (UserDetails) userRepository.findById(username).orElseThrow(() -> new UsernameNotFoundException("사용자를 찾을수 없습니다"));
     }
 }
