@@ -1,5 +1,6 @@
 package woosap.Pepple.security;
 
+import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.ExpiredJwtException;
 import java.io.IOException;
 import javax.servlet.FilterChain;
@@ -52,9 +53,9 @@ public class TokenFilter extends OncePerRequestFilter {
         }
     } catch (ExpiredJwtException e) {
         // access 토큰 만료시 refreshToken 가져오기
-
-        if (!ObjectUtils.isEmpty())
-            refreshToken = "dd";
+        String token = tokenService.getSubject(refreshToken);
+        if (!ObjectUtils.isEmpty(token))
+            refreshToken = token;
     } catch (Exception e) {
         SecurityContextHolder.clearContext();
         log.error("JWT ERROR : {} ", e);
