@@ -32,18 +32,21 @@ public class TokenFilter extends OncePerRequestFilter {
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response,
         FilterChain filterChain) throws ServletException, IOException {
 
-            String token = parseToken(request);
-            if (StringUtils.hasText(token) && tokenService.validToken(token)) {
+        String token = parseToken(request);
+        if (StringUtils.hasText(token) && tokenService.validToken(token)) {
 
-                UserDetails details = userDetailService.loadUserByUsername(tokenService.getSubject(token));
-                UsernamePasswordAuthenticationToken auth = new UsernamePasswordAuthenticationToken(details, null,
-                    details.getAuthorities());
-                auth.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
+            UserDetails details = userDetailService
+                .loadUserByUsername(tokenService.getSubject(token));
+            UsernamePasswordAuthenticationToken auth = new UsernamePasswordAuthenticationToken(
+                details, null,
+                details.getAuthorities());
+            auth.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
 
-                SecurityContextHolder.getContext().setAuthentication(auth);
-            }
-            filterChain.doFilter(request, response);
+            SecurityContextHolder.getContext().setAuthentication(auth);
         }
+        filterChain.doFilter(request, response);
+    }
+
     private String parseToken(HttpServletRequest request) {
         String authInfo = tokenService.resolveToken(request);
 
@@ -51,4 +54,5 @@ public class TokenFilter extends OncePerRequestFilter {
             return authInfo.substring(7);
         }
         return null;
+    }
 }

@@ -3,6 +3,7 @@ package woosap.Pepple.controller;
 import javax.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.BeanUtils;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -28,11 +29,12 @@ public class UserController {
 
     private final UserServiceImpl userService;
     private final UserRepository userRepository;
-    private final TokenServiceImpl securityServiceImpl;
 
     @PostMapping("/user")
-    public ResponseEntity<ResponseDTO> joinWithDetails(@SavedInfo SessionSaveInfo savedInfo, @RequestBody UserDTO userDTO,
+    public ResponseEntity<ResponseDTO> joinWithDetails(@SavedInfo SessionSaveInfo savedInfo, UserDTO userDTO,
                                                         HttpServletRequest request) {
+
+        log.info("enter");
 
         if (savedInfo == null) {
             ResponseDTO responseDTO = new ResponseDTO("잘못된 접근입니다", false);
@@ -40,7 +42,11 @@ public class UserController {
         }
         userDTO.setUserId(savedInfo.getUserId());
 
-        User savedUser = userService.join(userDTO.toEntity());
+        User user = new User();
+
+        BeanUtils.copyProperties(userDTO, user);
+
+        User savedUser = userService.join(user);
 
         if (savedUser == null) {
             ResponseDTO responseDTO = new ResponseDTO("데이터베이스 에러", false);

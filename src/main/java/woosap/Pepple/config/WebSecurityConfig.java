@@ -51,6 +51,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         http
             .httpBasic()
                 .disable()
+            .csrf()
+                .disable()
             .formLogin()
                 .disable()
             .cors()
@@ -58,7 +60,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
             .authorizeRequests()
                 .requestMatchers(CorsUtils::isPreFlightRequest)
                     .permitAll()
-                .antMatchers("/auth/**", "/oauth2/**", "/api/user", "/api/nickname")
+                .antMatchers("/auth/**", "/oauth2/**", "/api/user", "/api/nickname", "/error/**")
                     .permitAll()
                 .anyRequest()
                     .authenticated()
@@ -75,7 +77,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                     .and()
                 .successHandler(oAuth2SuccessHandler)
                 .failureHandler(oAuth2FailureHandler)
-            .and()
+                .and()
             .addFilterBefore(tokenFilter(),
                 UsernamePasswordAuthenticationFilter.class);
     }
