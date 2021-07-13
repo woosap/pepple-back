@@ -58,7 +58,7 @@ public class TokenServiceImpl implements TokenService {
 
     @Override
     public String resolveToken(HttpServletRequest request) {
-        return request.getHeader("AUTH-TOKEN");
+        return request.getHeader("Authorization");
     }
 
     @Override
@@ -78,6 +78,4 @@ public class TokenServiceImpl implements TokenService {
             return false;
         }
     }
-
-
 }

@@ -57,7 +57,6 @@ public class OnOAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandle
             }
 
         } else {
-            // queryString으로 처리.
             SessionSaveInfo saveInfo = (SessionSaveInfo) session.getAttribute(Constants.SESSION_KEY);
             redirectUrlWithParams = UriComponentsBuilder.fromUriString(detailRedirectUrl)
                 .queryParam("id", saveInfo.getUserId())

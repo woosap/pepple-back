@@ -1,6 +1,7 @@
 package woosap.Pepple.config;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.context.annotation.Bean;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
@@ -22,7 +23,12 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     private final CustomOAuth2UserService oAuth2UserService;
     private final OnOAuth2SuccessHandler oAuth2SuccessHandler;
     private final OnOAuth2FailureHandler oAuth2FailureHandler;
-    private final TokenServiceImpl tokenService;
+
+
+    @Bean
+    public TokenFilter tokenFilter() {
+        return new TokenFilter();
+    }
 
     @Override
     public void configure(WebSecurity web) throws Exception {
@@ -70,7 +76,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .successHandler(oAuth2SuccessHandler)
                 .failureHandler(oAuth2FailureHandler)
             .and()
-            .addFilterBefore(new TokenFilter(tokenService),
+            .addFilterBefore(tokenFilter(),
                 UsernamePasswordAuthenticationFilter.class);
     }
 }
