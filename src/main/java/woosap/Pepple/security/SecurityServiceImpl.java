@@ -12,6 +12,7 @@ import javax.crypto.spec.SecretKeySpec;
 import javax.servlet.http.HttpServletRequest;
 import javax.xml.bind.DatatypeConverter;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -23,6 +24,7 @@ import org.springframework.stereotype.Service;
 
 
 @RequiredArgsConstructor
+@Slf4j
 @Component
 public class SecurityServiceImpl implements SecurityService {
 
@@ -77,6 +79,7 @@ public class SecurityServiceImpl implements SecurityService {
                 .build().parseClaimsJws(jwtToken);
             return !claims.getBody().getExpiration().before(new Date());
         } catch (Exception e) {
+            log.error("유효하지 않은 토큰");
             return false;
         }
     }
