@@ -11,9 +11,9 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.oauth2.core.user.DefaultOAuth2User;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler;
 import org.springframework.stereotype.Component;
-import org.springframework.web.util.UriComponents;
 import org.springframework.web.util.UriComponentsBuilder;
 import woosap.Pepple.dto.SessionSaveInfo;
+import woosap.Pepple.security.TokenService;
 import woosap.Pepple.util.Constants;
 
 @Component
@@ -22,6 +22,7 @@ import woosap.Pepple.util.Constants;
 public class OnOAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandler {
 
     private final HttpSession session;
+    private final TokenService tokenService;
 
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response,
@@ -42,11 +43,20 @@ public class OnOAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandle
          */
 
         if (session.getAttribute(Constants.SESSION_KEY) == null) {
-            //TODO : get token
-            // id ->  System.out.println(((DefaultOAuth2User)authentication.getPrincipal()).getAttribute("id").toString()); 이용할 것
+            try {
+                String token = tokenService
+                    .createToken(((DefaultOAuth2User) authentication.getPrincipal())
+                        .getAttribute("id").toString());
+                redirectUrlWithParams = UriComponentsBuilder.fromUriString(tokenRedirectUrl)
+                                        .queryParam("token", token)
+                                        .build()
+                                        .toUriString();
+                getRedirectStrategy().sendRedirect(request, response, redirectUrlWithParams);
+            } catch (NullPointerException e) {
+                log.error("id가 없는 사용자");
+            }
 
         } else {
-            // queryString으로 처리.
             SessionSaveInfo saveInfo = (SessionSaveInfo) session.getAttribute(Constants.SESSION_KEY);
             redirectUrlWithParams = UriComponentsBuilder.fromUriString(detailRedirectUrl)
                 .queryParam("id", saveInfo.getUserId())
