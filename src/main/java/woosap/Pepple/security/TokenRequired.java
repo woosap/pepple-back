@@ -1,3 +1,4 @@
+/*
 package woosap.Pepple.security;
 
 import java.lang.annotation.ElementType;
@@ -10,3 +11,4 @@ import java.lang.annotation.Target;
 public @interface TokenRequired {
 
 }
+*/
