@@ -61,10 +61,4 @@ public class UserController {
         }
         return new ResponseEntity<>("사용 가능한 닉네임 입니다", HttpStatus.OK);
     }
-
-    @PostMapping("/login")
-    public String login(@RequestBody Map<String, String> user) {
-        User member = userRepository.findById(user.get("user_id")).orElseThrow(() -> new IllegalArgumentException("가입하지 않았습니다"));
-        return securityServiceImpl.createToken(member.getUserId());
-    }
 }

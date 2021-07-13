@@ -28,7 +28,7 @@ public class SecurityServiceImpl implements SecurityService {
 
     private String secret_key = "aasjjkjaskjdl1k2naskjkdakj34ckhgkgkfyufyt8sa";
 
-    private long tokenValidTime = 30 * 60 * 1000L;
+    private long tokenValidTime = 180 * 60 * 1000L;
 
     private final UserDetailsService userDetailsService;
 
