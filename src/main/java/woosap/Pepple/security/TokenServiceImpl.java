@@ -30,9 +30,6 @@ public class TokenServiceImpl implements TokenService {
     @Value("$(jwt.access_tokenValidTime}")
     private long access_TokenValidTime;
 
-    @Value("${jwt.refresh_TokenValidTime}")
-    private long refresh_TokenValidTime;
-
     private final UserDetailsService userDetailsService;
 
     // 서버에서 토큰을 발행하는 역할
@@ -48,19 +45,6 @@ public class TokenServiceImpl implements TokenService {
             .setIssuedAt(now)
             .signWith(signingKey, signatureAlgorithm)
             .setExpiration(new Date(now.getTime() + access_TokenValidTime))
-            .compact();
-    }
-
-    public String refreshToken(String value) {
-        SignatureAlgorithm signatureAlgorithm = SignatureAlgorithm.HS256;
-        byte[] secretKeyBytes = DatatypeConverter.parseBase64Binary(secret_key);
-        Key signingKey = new SecretKeySpec(secretKeyBytes, signatureAlgorithm.getJcaName());
-        Date now = new Date();
-        return Jwts.builder()
-            .setSubject(value)
-            .setIssuedAt(now)
-            .signWith(signingKey, signatureAlgorithm)
-            .setExpiration(new Date(now.getTime() + refresh_TokenValidTime))
             .compact();
     }
 

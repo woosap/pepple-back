@@ -40,8 +40,6 @@ public class TokenFilter extends OncePerRequestFilter {
         FilterChain filterChain) throws ServletException, IOException {
 
         String accessToken = parseToken(request);
-        String refreshToken = null;
-    try {
         if (StringUtils.hasText(accessToken) && tokenService.validToken(accessToken)) {
             UserDetails details = userDetailService
                 .loadUserByUsername(tokenService.getSubject(accessToken));
@@ -51,40 +49,6 @@ public class TokenFilter extends OncePerRequestFilter {
             auth.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
             SecurityContextHolder.getContext().setAuthentication(auth);
         }
-    } catch (ExpiredJwtException e) {
-        // access 토큰 만료시 refreshToken 가져오기
-        String token = tokenService.getSubject(refreshToken); // User가 가지고 있는 refresh Token 을 가지고 와야합니다.
-        if (!ObjectUtils.isEmpty(token))
-            refreshToken = token;
-    } catch (Exception e) {
-        SecurityContextHolder.clearContext();
-        log.error("JWT ERROR : {} ", e);
-        return;
-    }
-
-    // refresh 토큰으로 access 토큰 발급하기
-    if (StringUtils.hasText(refreshToken)) {
-        try {
-            try {
-                if (tokenService.validToken(refreshToken)) {
-                    Authentication authentication = tokenService.getAuthentication(refreshToken);
-                    SecurityContextHolder.getContext().setAuthentication(authentication);
-
-                    // 새 access 토큰 발급
-                    String newAccessToken = tokenService.createToken(tokenService.getSubject(refreshToken));
-                    //유저에게 새 accessToken을 주어야 합니다.
-
-                }
-            } catch (ExpiredJwtException e) {
-                SecurityContextHolder.clearContext();
-                log.error("JWT expired error : {} ", e);
-            }
-        } catch (Exception e) {
-            SecurityContextHolder.clearContext();
-            log.error("JWT filter internal error : {} ", e);
-            return;
-        }
-    }
         filterChain.doFilter(request, response);
     }
 
