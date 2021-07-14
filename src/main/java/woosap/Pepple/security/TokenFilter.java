@@ -53,7 +53,7 @@ public class TokenFilter extends OncePerRequestFilter {
         }
     } catch (ExpiredJwtException e) {
         // access 토큰 만료시 refreshToken 가져오기
-        String token = tokenService.getSubject(refreshToken);
+        String token = tokenService.getSubject(refreshToken); // User가 가지고 있는 refresh Token 을 가지고 와야합니다.
         if (!ObjectUtils.isEmpty(token))
             refreshToken = token;
     } catch (Exception e) {
@@ -72,6 +72,7 @@ public class TokenFilter extends OncePerRequestFilter {
 
                     // 새 access 토큰 발급
                     String newAccessToken = tokenService.createToken(tokenService.getSubject(refreshToken));
+                    //유저에게 새 accessToken을 주어야 합니다.
 
                 }
             } catch (ExpiredJwtException e) {
