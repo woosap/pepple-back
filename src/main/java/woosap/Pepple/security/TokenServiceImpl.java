@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.xml.bind.DatatypeConverter;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -23,9 +24,11 @@ import org.springframework.stereotype.Component;
 @Component
 public class TokenServiceImpl implements TokenService {
 
-    private String secret_key = "aasjjkjaskjdl1k2naskjkdakj34ckhgkgkfyufyt8sa";
+    @Value("${jwt.secret_key}")
+    private String secret_key;
 
-    private long tokenValidTime = 180 * 60 * 1000L;
+    @Value("$(jwt.access_tokenValidTime}")
+    private long access_TokenValidTime;
 
     private final UserDetailsService userDetailsService;
 
@@ -41,7 +44,7 @@ public class TokenServiceImpl implements TokenService {
             .setSubject(subject)
             .setIssuedAt(now)
             .signWith(signingKey, signatureAlgorithm)
-            .setExpiration(new Date(now.getTime() + tokenValidTime))
+            .setExpiration(new Date(now.getTime() + access_TokenValidTime))
             .compact();
     }
 
