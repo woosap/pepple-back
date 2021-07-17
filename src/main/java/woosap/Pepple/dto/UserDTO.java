@@ -15,6 +15,7 @@ import woosap.Pepple.entity.type.Job;
 @NoArgsConstructor
 @AllArgsConstructor
 public class UserDTO implements Serializable {
+
     private String userId;
 
     private String nickname;
