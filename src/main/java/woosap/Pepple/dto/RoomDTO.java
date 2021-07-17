@@ -15,6 +15,8 @@ import woosap.Pepple.entity.type.Category;
 @AllArgsConstructor
 public class RoomDTO implements Serializable {
 
+    private int room_num; // 방 번호 : 필수 키
+
     private String title; // 방제목
 
     private String sub_title; // 소제목
@@ -25,7 +27,7 @@ public class RoomDTO implements Serializable {
 
     private int num_of_people; // 방 인원수
 
-    private String boss; // 방 개설자
+    private String maker; // 방 개설자
 
     Vector<Service> userV; // 같은 방에 있는 Client 정보
 
