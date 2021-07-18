@@ -1,6 +1,11 @@
 package woosap.Pepple.service;
 
+import java.util.HashSet;
+import java.util.Random;
+import java.util.UUID;
 import org.springframework.stereotype.Service;
+import woosap.Pepple.dto.RoomDTO;
+import woosap.Pepple.entity.Room;
 import woosap.Pepple.repository.RoomRepository;
 
 @Service
@@ -15,5 +20,20 @@ public class RoomServiceImpl implements RoomService {
     @Override
     public Boolean titleDuplicateCheck(String title) {
         return roomRepository.existsByTitle(title);
+    }
+
+    @Override
+    public Room createRoom(RoomDTO roomDTO) {
+        Room room = new Room();
+        room.setRoom_num(roomDTO.getRoom_num());
+        room.setTitle(roomDTO.getTitle());
+        room.setSub_title(roomDTO.getSub_title());
+        room.setDate(roomDTO.getDate());
+        room.setMaker(roomDTO.getMaker());
+        room.setCategory(roomDTO.getCategory());
+        room.setNum_of_people(1);
+        room.setUserV(roomDTO.getUserV());
+
+        return room;
     }
 }

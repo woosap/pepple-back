@@ -7,7 +7,7 @@ import woosap.Pepple.entity.User;
 import woosap.Pepple.repository.UserRepository;
 
 @Service
-public class UserServiceImpl implements UserService{
+public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
 
@@ -28,12 +28,13 @@ public class UserServiceImpl implements UserService{
     @Override
     public User findUser(String id) {
         return userRepository.findById(id)
-            .orElseThrow( () -> new RuntimeException());
+            .orElseThrow(() -> new RuntimeException());
     }
 
     @Override
     public void updateUser(UserDTO userDTO) {
-        User foundUser = userRepository.findById(userDTO.getUserId()).orElseThrow(RuntimeException::new);
+        User foundUser = userRepository.findById(userDTO.getUserId())
+            .orElseThrow(RuntimeException::new);
         foundUser.setImageUrl(userDTO.getImageUrl());
         foundUser.setJob(userDTO.getJob());
         foundUser.setNickname(userDTO.getNickname());
