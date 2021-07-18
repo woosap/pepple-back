@@ -26,6 +26,12 @@ public class UserServiceImpl implements UserService{
     }
 
     @Override
+    public User findUser(String id) {
+        return userRepository.findById(id)
+            .orElseThrow( () -> new RuntimeException());
+    }
+
+    @Override
     public void updateUser(UserDTO userDTO) {
         User foundUser = userRepository.findById(userDTO.getUserId()).orElseThrow(RuntimeException::new);
         foundUser.setImageUrl(userDTO.getImageUrl());

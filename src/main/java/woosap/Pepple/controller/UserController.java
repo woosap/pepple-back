@@ -33,7 +33,7 @@ public class UserController {
     private final UserServiceImpl userService;
     private final TokenServiceImpl tokenService;
 
-    @GetMapping("/user")
+    @GetMapping("/token")
     public ResponseEntity<?> getJWTToken(@SavedInfo SessionSaveInfo savedInfo, HttpServletRequest request) {
 
         if (savedInfo == null) {
