@@ -12,7 +12,5 @@ import lombok.Setter;
 public class SessionSaveInfo {
     private String userId;
 
-    private String nickname;
-
     private String imageUrl;
 }
