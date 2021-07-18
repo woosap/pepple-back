@@ -1,8 +1,5 @@
 package woosap.Pepple.service;
 
-import java.util.HashSet;
-import java.util.Random;
-import java.util.UUID;
 import org.springframework.stereotype.Service;
 import woosap.Pepple.dto.RoomDTO;
 import woosap.Pepple.entity.Room;

@@ -9,6 +9,7 @@ import javax.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
+import woosap.Pepple.entity.User;
 import woosap.Pepple.entity.type.Category;
 
 @Getter
@@ -32,7 +33,7 @@ public class RoomDTO implements Serializable {
 
     private String maker; // 방 개설자
 
-    Vector<Service> userV; // 같은 방에 있는 Client 정보
+    private List<User> userV; // 같은 방에 있는 Client 정보
 
     public RoomDTO() {
         userV = new Vector<>();

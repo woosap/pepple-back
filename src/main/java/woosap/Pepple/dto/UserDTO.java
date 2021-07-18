@@ -23,6 +23,8 @@ public class UserDTO implements Serializable {
 
     private Job job;
 
+    private String profile;
+
     private List<String> snsList;
 
 }

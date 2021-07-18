@@ -50,6 +50,6 @@ public class Room {
 
     @ElementCollection
     @CollectionTable(name = "room_user", joinColumns = @JoinColumn(name = "clinets_info"))
-    Vector<Service> userV; // 같은 방에 있는 Client 정보
+    private List<User> userV; // 같은 방에 있는 Client 정보
 
 }
