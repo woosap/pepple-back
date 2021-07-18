@@ -23,12 +23,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     private final CustomOAuth2UserService oAuth2UserService;
     private final OnOAuth2SuccessHandler oAuth2SuccessHandler;
     private final OnOAuth2FailureHandler oAuth2FailureHandler;
+    private final TokenFilter   tokenFilter;
 
-
-    @Bean
-    public TokenFilter tokenFilter() {
-        return new TokenFilter();
-    }
 
     @Override
     public void configure(WebSecurity web) throws Exception {
@@ -60,7 +56,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
             .authorizeRequests()
                 .requestMatchers(CorsUtils::isPreFlightRequest)
                     .permitAll()
-                .antMatchers("/auth/**", "/oauth2/**", "/api/user", "/api/nickname", "/error/**")
+                .antMatchers("/oauth2/**", "/api/user", "/api/nickname", "/error/**")
                     .permitAll()
                 .anyRequest()
                     .authenticated()
@@ -78,7 +74,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .successHandler(oAuth2SuccessHandler)
                 .failureHandler(oAuth2FailureHandler)
                 .and()
-            .addFilterBefore(tokenFilter(),
+            .addFilterBefore(tokenFilter,
                 UsernamePasswordAuthenticationFilter.class);
     }
 }

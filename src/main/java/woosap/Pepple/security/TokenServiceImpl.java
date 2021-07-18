@@ -28,7 +28,7 @@ public class TokenServiceImpl implements TokenService {
     private String secret_key;
 
     @Value("$(jwt.access_tokenValidTime}")
-    private long access_TokenValidTime;
+    private String access_TokenValidTime;
 
     private final UserDetailsService userDetailsService;
 
@@ -44,7 +44,7 @@ public class TokenServiceImpl implements TokenService {
             .setSubject(subject)
             .setIssuedAt(now)
             .signWith(signingKey, signatureAlgorithm)
-            .setExpiration(new Date(now.getTime() + access_TokenValidTime))
+            .setExpiration(new Date(now.getTime() + Long.parseLong(access_TokenValidTime)))
             .compact();
     }
 

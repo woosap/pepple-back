@@ -7,5 +7,5 @@ import woosap.Pepple.entity.User;
 public interface UserRepository extends JpaRepository<User, String> {
     Boolean existsByNickname(String nickname);
 
-    Optional<User> findById(String User_Id);
+    Optional<User> findById(String userId);
 }

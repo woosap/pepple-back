@@ -1,17 +1,13 @@
 package woosap.Pepple.dto;
 
+import java.io.Serializable;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 
-@Setter
-@Getter
 @AllArgsConstructor
 @NoArgsConstructor
-public class SessionSaveInfo {
-
-    private String userId;
-
-    private String imageUrl;
+@Getter
+public class AuthResponseDTO implements Serializable {
+    private boolean authorized;
 }
