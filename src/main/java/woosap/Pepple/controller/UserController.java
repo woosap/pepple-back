@@ -1,11 +1,13 @@
 package woosap.Pepple.controller;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -43,13 +45,21 @@ public class UserController {
 
 
     @PostMapping("/user")
-    public ResponseEntity<ResponseDTO> joinWithDetails(@SavedInfo SessionSaveInfo savedInfo, UserDTO userDTO,
+    public ResponseEntity<ResponseDTO> joinWithDetails(@SavedInfo SessionSaveInfo savedInfo, @Valid UserDTO userDTO,
+                                                        BindingResult bindingResult,
                                                         HttpServletRequest request) {
-        if (savedInfo == null) {
+
+        log.info("join with Details called savedInfo is {}", savedInfo.toString());
+
+        if (savedInfo == null || !userDTO.getUserId().equals(savedInfo.getUserId())) {
             ResponseDTO responseDTO = new ResponseDTO("잘못된 접근입니다", false);
             return new ResponseEntity<>(responseDTO, HttpStatus.BAD_REQUEST);
         }
-        userDTO.setUserId(savedInfo.getUserId());
+
+        if (bindingResult.hasErrors()) {
+            bindingResult.getAllErrors()
+                .forEach(error -> log.error(error.getDefaultMessage()));
+        }
 
         User user = new User();
 
@@ -59,6 +69,7 @@ public class UserController {
 
         if (savedUser == null) {
             ResponseDTO responseDTO = new ResponseDTO("데이터베이스 에러", false);
+            log.error("Database Error -> faild to save");
             return new ResponseEntity<>(responseDTO, HttpStatus.INTERNAL_SERVER_ERROR);
         }
         ResponseDTO responseDTO = new ResponseDTO("회원가입에 성공하였습니다", true);
