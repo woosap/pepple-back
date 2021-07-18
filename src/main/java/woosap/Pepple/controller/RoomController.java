@@ -7,6 +7,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import woosap.Pepple.dto.ResponseDTO;
@@ -25,7 +26,7 @@ public class RoomController {
     private final TokenServiceImpl tokenService;
     private final RoomServiceImpl roomService;
 
-    @GetMapping("/create")
+    @PostMapping("/create")
     public ResponseEntity<?> creatRoom(@Valid RoomDTO roomInfo,
         HttpServletRequest httpServletRequest) {
 
