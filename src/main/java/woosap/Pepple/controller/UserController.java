@@ -10,6 +10,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -74,6 +76,18 @@ public class UserController {
         }
         ResponseDTO responseDTO = new ResponseDTO("회원가입에 성공하였습니다", true);
         return new ResponseEntity<>(responseDTO, HttpStatus.CREATED);
+    }
+
+    @PutMapping("/user")
+    public ResponseEntity<ResponseDTO> updateUserInfo(@RequestBody @Valid UserDTO userInfo, BindingResult bindingResult) {
+
+        if (bindingResult.hasErrors()) {
+            bindingResult.getAllErrors()
+                .forEach(error -> log.error(error.getDefaultMessage()));
+            return new ResponseEntity<>(new ResponseDTO("입력오류, 입력값들을 다시 확인해주세요", false), HttpStatus.BAD_REQUEST);
+        }
+        userService.updateUser(userInfo);
+        return new ResponseEntity<>(new ResponseDTO("수정되었습니다", true), HttpStatus.OK);
     }
 
     @GetMapping("/nickname")
