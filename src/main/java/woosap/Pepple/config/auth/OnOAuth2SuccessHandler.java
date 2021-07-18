@@ -12,6 +12,7 @@ import org.springframework.security.oauth2.core.user.DefaultOAuth2User;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler;
 import org.springframework.stereotype.Component;
 import org.springframework.web.util.UriComponentsBuilder;
+import org.yaml.snakeyaml.util.UriEncoder;
 import woosap.Pepple.dto.SessionSaveInfo;
 import woosap.Pepple.security.TokenService;
 import woosap.Pepple.util.Constants;
@@ -59,9 +60,8 @@ public class OnOAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandle
         } else {
             SessionSaveInfo saveInfo = (SessionSaveInfo) session.getAttribute(Constants.SESSION_KEY);
             redirectUrlWithParams = UriComponentsBuilder.fromUriString(detailRedirectUrl)
-                .queryParam("id", saveInfo.getUserId())
-                .queryParam("nickname", saveInfo.getNickname())
-                .queryParam("image", saveInfo.getImageUrl())
+                .queryParam("id", UriEncoder.encode(saveInfo.getUserId()))
+                .queryParam("image", UriEncoder.encode(saveInfo.getImageUrl()))
                 .build()
                 .toUriString();
             getRedirectStrategy().sendRedirect(request, response, redirectUrlWithParams);

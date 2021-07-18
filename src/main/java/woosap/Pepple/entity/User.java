@@ -40,6 +40,9 @@ public class User {
     @Enumerated(EnumType.STRING)
     private Job job;
 
+    @Column
+    private String profile;
+
     @ElementCollection
     @CollectionTable(name ="sns_list", joinColumns = @JoinColumn(name = "userId"))
     private List<String> snsList;
