@@ -34,8 +34,4 @@ public class RoomDTO implements Serializable {
     private String maker; // 방 개설자
 
     private List<User> userV; // 같은 방에 있는 Client 정보
-
-    public RoomDTO() {
-        userV = new Vector<>();
-    }
 }
