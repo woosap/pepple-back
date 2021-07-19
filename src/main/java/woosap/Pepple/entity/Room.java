@@ -1,6 +1,7 @@
 package woosap.Pepple.entity;
 
 import java.security.Provider.Service;
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.List;
 import java.util.Vector;
@@ -33,14 +34,17 @@ public class Room {
     private String sub_title;
 
     @Temporal(TemporalType.TIMESTAMP)
-    private Date date; // 생성 시간 : 년월일 시분초
+    private LocalDateTime date; // 생성 시간 : 년월일 시분초
 
     @ElementCollection
     @CollectionTable(name = "category", joinColumns = @JoinColumn(name = "select_sategory"))
     private List<Category> category; // 카테고리
 
-    @Column(name = "num_of_people")
-    private int num_of_people; // 방 인원수
+    @Column(name = "capacity")
+    private int capacity; // 방 입장 제한인원수
+
+    @Column(name = "peoples")
+    private int peoples; // 현재 인원수
 
     @Column(name = "maker")
     private String maker; // 방 개설자

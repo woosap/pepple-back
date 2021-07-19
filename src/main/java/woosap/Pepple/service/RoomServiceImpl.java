@@ -20,6 +20,14 @@ public class RoomServiceImpl implements RoomService {
     }
 
     @Override
+    public Boolean checkCapacity(int capacity, int peoples) {
+        if (capacity >= peoples) {
+            return true;
+        }
+        return false;
+    }
+
+    @Override
     public Room createRoom(RoomDTO roomDTO) {
         Room room = new Room();
         room.setTitle(roomDTO.getTitle());
@@ -27,7 +35,8 @@ public class RoomServiceImpl implements RoomService {
         room.setDate(roomDTO.getDate());
         room.setMaker(roomDTO.getMaker());
         room.setCategory(roomDTO.getCategory());
-        room.setNum_of_people(1);
+        room.setCapacity(roomDTO.getCapacity());
+        room.setPeoples(1);
         room.setUserV(roomDTO.getUserV());
 
         return room;

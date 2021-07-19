@@ -7,6 +7,8 @@ public interface RoomService {
 
     public Boolean titleDuplicateCheck(String title);
 
+    public Boolean checkCapacity(int capacity, int peoples);
+
     public Room createRoom(RoomDTO roomDTO);
 
 }
