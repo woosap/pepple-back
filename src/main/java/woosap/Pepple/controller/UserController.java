@@ -86,6 +86,7 @@ public class UserController {
     public ResponseEntity<String> checkNickname(@RequestParam(name = "nickname") String nickname) {
         Boolean result = userService.nicknameDuplicateCheck(nickname);
 
+        System.out.println(tokenService.createToken("a"));
         if (result) {
             return new ResponseEntity<>("이미 사용중인 별명입니다", HttpStatus.CONFLICT);
         }

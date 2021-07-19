@@ -27,24 +27,20 @@ public class TokenServiceImpl implements TokenService {
     @Value("${jwt.secret_key}")
     private String secret_key;
 
-    @Value("$(jwt.access_tokenValidTime}")
-    private String access_TokenValidTime;
-
     private final UserDetailsService userDetailsService;
 
-    // 서버에서 토큰을 발행하는 역할
     @Override
     public String createToken(String subject) {
-        // 토큰을 서명하기 위해 사용할 알고리즘 선택
         SignatureAlgorithm signatureAlgorithm = SignatureAlgorithm.HS256;
         byte[] secretKeyBytes = DatatypeConverter.parseBase64Binary(secret_key);
         Key signingKey = new SecretKeySpec(secretKeyBytes, signatureAlgorithm.getJcaName());
         Date now = new Date();
+        long access_TokenValidTime = 30 * 24 * 60 * 60 * 1000L;
         return Jwts.builder()
             .setSubject(subject)
             .setIssuedAt(now)
             .signWith(signingKey, signatureAlgorithm)
-            .setExpiration(new Date(now.getTime() + Long.parseLong(access_TokenValidTime)))
+            .setExpiration(new Date(now.getTime() + access_TokenValidTime))
             .compact();
     }
 
