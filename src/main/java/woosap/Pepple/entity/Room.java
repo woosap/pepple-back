@@ -17,6 +17,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.springframework.format.annotation.DateTimeFormat;
 import woosap.Pepple.entity.type.Category;
 
 @Entity
@@ -33,7 +34,7 @@ public class Room {
     @Column(name = "sub_title")
     private String sub_title;
 
-    @Temporal(TemporalType.TIMESTAMP)
+    @DateTimeFormat(pattern = "yyyy-mm-dd kk:mm:ss")
     private LocalDateTime date; // 생성 시간 : 년월일 시분초
 
     @ElementCollection

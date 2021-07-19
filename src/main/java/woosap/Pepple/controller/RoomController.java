@@ -40,13 +40,12 @@ public class RoomController {
     }
 
     @GetMapping("/capacity")
-    public ResponseEntity<String> checkCapacity(@RequestParam(name = "peoples") int peoples,
-        @Valid RoomDTO roomDTO, BindingResult bindingResult) {
+    public ResponseEntity<String> checkCapacity(@Valid RoomDTO roomDTO, BindingResult bindingResult) {
 
         if (bindingResult.hasErrors()) {
             bindingResult.getAllErrors().forEach(error -> log.error(error.getDefaultMessage()));
         }
-        if (!roomService.checkCapacity(roomDTO.getCapacity(), peoples)) {
+        if (!roomService.checkCapacity(roomDTO.getCapacity(), roomDTO.getPeoples())) {
             return new ResponseEntity<>("입장 인원을 초과하였습니다.", HttpStatus.CONFLICT);
         }
         return new ResponseEntity<>("입장할수 있습니다", HttpStatus.OK);
