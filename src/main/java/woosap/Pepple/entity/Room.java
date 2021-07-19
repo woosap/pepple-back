@@ -26,9 +26,6 @@ import woosap.Pepple.entity.type.Category;
 public class Room {
 
     @Id
-    @Column(name = "room_num")
-    private int room_num;
-
     @Column(name = "title", nullable = false, unique = true)
     private String title;
 

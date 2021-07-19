@@ -22,7 +22,6 @@ public class RoomServiceImpl implements RoomService {
     @Override
     public Room createRoom(RoomDTO roomDTO) {
         Room room = new Room();
-        room.setRoom_num(roomDTO.getRoom_num());
         room.setTitle(roomDTO.getTitle());
         room.setSub_title(roomDTO.getSub_title());
         room.setDate(roomDTO.getDate());

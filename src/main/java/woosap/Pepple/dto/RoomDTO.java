@@ -17,8 +17,6 @@ import woosap.Pepple.entity.type.Category;
 @AllArgsConstructor
 public class RoomDTO implements Serializable {
 
-    private int room_num; // 방 번호 : 필수 키
-
     @NotBlank(message = "페플러의 관심을 끌 수 있도록 제목을 설정해주세요!")
     private String title; // 방제목
 
