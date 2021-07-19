@@ -9,19 +9,4 @@ import woosap.Pepple.repository.TestRepository;
 
 @SpringBootTest
 class PeppleApplicationTests {
-
-	@Autowired
-	TestRepository testRepository;
-
-	@Test
-	void dbConnectionTest() {
-		TestEntity testEntity = new TestEntity();
-		Long testNum = 2L;
-		testEntity.setId(testNum);
-		testRepository.save(testEntity);
-		testRepository.flush();
-		TestEntity result = testRepository.findById(testNum).get();
-		Assertions.assertEquals(testEntity.getId(), result.getId());
-	}
-
 }
