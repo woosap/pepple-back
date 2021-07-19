@@ -10,6 +10,7 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 public class SessionSaveInfo {
+
     private String userId;
 
     private String imageUrl;
