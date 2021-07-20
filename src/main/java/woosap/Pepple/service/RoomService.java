@@ -11,4 +11,6 @@ public interface RoomService {
 
     public Room createRoom(RoomDTO roomDTO);
 
+    public void removeRoom(Room room);
+
 }

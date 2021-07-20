@@ -39,6 +39,11 @@ public class RoomServiceImpl implements RoomService {
         room.setPeoples(1);
         room.setUserV(roomDTO.getUserV());
 
-        return room;
+        return roomRepository.save(room);
+    }
+
+    @Override
+    public void removeRoom(Room room) {
+        roomRepository.delete(room);
     }
 }

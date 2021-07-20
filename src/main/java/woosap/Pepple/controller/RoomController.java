@@ -48,12 +48,11 @@ public class RoomController {
         if (!roomService.checkCapacity(roomDTO.getCapacity(), roomDTO.getPeoples())) {
             return new ResponseEntity<>("입장 인원을 초과하였습니다.", HttpStatus.CONFLICT);
         }
-        return new ResponseEntity<>("입장할수 있습니다", HttpStatus.OK);
+        return new ResponseEntity<>("입장 할 수 있습니다", HttpStatus.OK);
     }
 
     @PostMapping("/create")
-    public ResponseEntity<?> creatRoom(@Valid RoomDTO roomInfo, BindingResult bindingResult,
-        HttpServletRequest httpServletRequest) {
+    public ResponseEntity<?> creatRoom(@Valid RoomDTO roomInfo, BindingResult bindingResult) {
 
         if (bindingResult.hasErrors()) {
             bindingResult.getAllErrors().forEach(error -> log.error(error.getDefaultMessage()));
@@ -61,5 +60,8 @@ public class RoomController {
         roomService.createRoom(roomInfo);
         return new ResponseEntity<>(new ResponseDTO("방을 만들었습니다", true), HttpStatus.CREATED);
     }
+
+
+
 
 }
