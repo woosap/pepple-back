@@ -40,7 +40,8 @@ public class RoomController {
     }
 
     @GetMapping("/capacity")
-    public ResponseEntity<String> checkCapacity(@Valid RoomDTO roomDTO, BindingResult bindingResult) {
+    public ResponseEntity<String> checkCapacity(@Valid RoomDTO roomDTO,
+        BindingResult bindingResult) {
 
         if (bindingResult.hasErrors()) {
             bindingResult.getAllErrors().forEach(error -> log.error(error.getDefaultMessage()));
@@ -61,7 +62,16 @@ public class RoomController {
         return new ResponseEntity<>(new ResponseDTO("방을 만들었습니다", true), HttpStatus.CREATED);
     }
 
+    @PostMapping("/remove")
+    public ResponseEntity<?> removeRoom(@Valid RoomDTO roomDTO, BindingResult bindingResult) {
 
-
-
+        if (bindingResult.hasErrors()) {
+            bindingResult.getAllErrors().forEach(error -> log.error(error.getDefaultMessage()));
+        }
+        if (roomDTO.getPeoples() <= 0) {
+            roomService.removeRoom(roomDTO);
+            return new ResponseEntity<>(new ResponseDTO("방이 존재하지 않습니다", true), HttpStatus.OK);
+        }
+        return new ResponseEntity<>(new ResponseDTO("잘못된 접근 입니다", false), HttpStatus.BAD_REQUEST);
+    }
 }

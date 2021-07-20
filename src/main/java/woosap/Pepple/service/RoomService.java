@@ -11,6 +11,10 @@ public interface RoomService {
 
     public Room createRoom(RoomDTO roomDTO);
 
-    public void removeRoom(Room room);
+    public void plusUserCount(Room room);
+
+    public void minusUserCount(Room room);
+
+    public void removeRoom(RoomDTO roomDTO);
 
 }
