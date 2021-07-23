@@ -63,8 +63,8 @@ public class UserController {
             log.error("Database Error -> failed to save");
             return new ResponseEntity<>(responseDTO, HttpStatus.INTERNAL_SERVER_ERROR);
         }
-        String token = tokenService.createToken(savedInfo.getUserId());
-        request.getSession().invalidate();
+        String token = tokenService.createToken(userDTO.getUserId());
+        //request.getSession().invalidate();
         return new ResponseEntity<>(new TokenDTO(token), HttpStatus.CREATED);
     }
 
