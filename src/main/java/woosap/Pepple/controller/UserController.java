@@ -42,10 +42,10 @@ public class UserController {
 
         log.info("join with Details called savedInfo is {}", savedInfo);
 
-        if (savedInfo == null || !userDTO.getUserId().equals(savedInfo.getUserId())) {
-            ResponseDTO responseDTO = new ResponseDTO("잘못된 접근입니다", false);
-            return new ResponseEntity<>(responseDTO, HttpStatus.BAD_REQUEST);
-        }
+//        if (savedInfo == null || !userDTO.getUserId().equals(savedInfo.getUserId())) {
+//            ResponseDTO responseDTO = new ResponseDTO("잘못된 접근입니다", false);
+//            return new ResponseEntity<>(responseDTO, HttpStatus.BAD_REQUEST);
+//        }
 
         if (bindingResult.hasErrors()) {
             bindingResult.getAllErrors()

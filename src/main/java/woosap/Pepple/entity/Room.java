@@ -33,7 +33,7 @@ public class Room {
     @Column(name = "sub_title")
     private String sub_title;
 
-    @Temporal(TemporalType.TIMESTAMP)
+    //@Temporal(TemporalType.TIMESTAMP)
     private LocalDateTime date; // 생성 시간 : 년월일 시분초
 
     @ElementCollection
