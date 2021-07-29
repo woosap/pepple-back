@@ -1,6 +1,7 @@
 package woosap.Pepple.controller;
 
 import java.util.List;
+import java.util.stream.Collectors;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -62,9 +63,15 @@ public class RoomController {
     }
 
     @GetMapping
-    public List<RoomDTO> getRooms(Pageable page) {
+    public ResponseEntity<List<RoomDTO>> getRooms(Pageable page) {
         log.info("getRooms called");
         log.info("page is {}", page);
         Page<Room> roomsWithPage = roomService.getRoomsWithPage(page);
+        List<RoomDTO> rooms = roomsWithPage
+            .toList()
+            .stream()
+            .map(roomEntity -> roomEntity.entityToDto(roomEntity))
+            .collect(Collectors.toList());
+        return new ResponseEntity<>(rooms, HttpStatus.OK);
     }
 }
