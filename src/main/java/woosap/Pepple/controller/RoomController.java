@@ -1,9 +1,12 @@
 package woosap.Pepple.controller;
 
+import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
@@ -16,6 +19,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import woosap.Pepple.dto.ResponseDTO;
 import woosap.Pepple.dto.RoomDTO;
+import woosap.Pepple.entity.Room;
 import woosap.Pepple.security.TokenServiceImpl;
 import woosap.Pepple.service.RoomServiceImpl;
 import woosap.Pepple.service.UserServiceImpl;
@@ -57,5 +61,10 @@ public class RoomController {
         return new ResponseEntity<>(new ResponseDTO("방을 만들었습니다", true), HttpStatus.CREATED);
     }
 
-//    @GetMapping
+    @GetMapping
+    public List<RoomDTO> getRooms(Pageable page) {
+        log.info("getRooms called");
+        log.info("page is {}", page);
+        Page<Room> roomsWithPage = roomService.getRoomsWithPage(page);
+    }
 }

@@ -72,6 +72,11 @@ public class UserController {
     @GetMapping("/nickname")
     @ApiOperation(value = "닉네임", notes = "닉네임 중복체크")
     public ResponseEntity<String> checkNickname(@RequestParam(name = "nickname") String nickname) {
+
+        if (nickname.length() > 8) {
+            return new ResponseEntity<>("닉네임은 8글자 까지입니다.", HttpStatus.BAD_REQUEST);
+        }
+
         Boolean result = userService.nicknameDuplicateCheck(nickname);
 
         if (result) {

@@ -1,5 +1,7 @@
 package woosap.Pepple.service;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import woosap.Pepple.dto.RoomDTO;
 import woosap.Pepple.entity.Room;
@@ -33,12 +35,15 @@ public class RoomServiceImpl implements RoomService {
         room.setTitle(roomDTO.getTitle());
         room.setSub_title(roomDTO.getSub_title());
         room.setDate(roomDTO.getDate());
-        room.setMaker(roomDTO.getMaker());
+        room.setCreator(roomDTO.getCreator());
         room.setCategory(roomDTO.getCategory());
         room.setCapacity(roomDTO.getCapacity());
-        room.setPeoples(1);
-        room.setUserV(roomDTO.getUserV());
 
         return room;
+    }
+
+    @Override
+    public Page<Room> getRoomsWithPage(Pageable page) {
+        return roomRepository.findAll(page);
     }
 }

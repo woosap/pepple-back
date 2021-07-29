@@ -12,6 +12,7 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -20,9 +21,12 @@ import woosap.Pepple.entity.type.Category;
 
 @Getter
 @Setter
+@Builder
 @AllArgsConstructor
 @NoArgsConstructor
 public class RoomDTO implements Serializable {
+
+    private long roomId;
 
     @NotBlank(message = "페플러의 관심을 끌 수 있도록 제목을 설정해주세요!")
     private String title; // 방제목
