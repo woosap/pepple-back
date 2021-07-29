@@ -61,7 +61,7 @@ public class Room {
             .category(room.getCategory())
             .date(room.getDate())
             .creator(room.getCreator())
-            .sub_title(room.getSubTitle())
+            .subTitle(room.getSubTitle())
             .title(room.getTitle())
             .build();
     }

@@ -32,7 +32,7 @@ public class RoomDTO implements Serializable {
     private String title; // 방제목
 
     @NotBlank(message = "스터디에 대해 잘 알 수 있게 적어주세요!")
-    private String sub_title; // 소제목
+    private String subTitle; // 소제목
 
     private LocalDateTime date; // 생성 시간
 

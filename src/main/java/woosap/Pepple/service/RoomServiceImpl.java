@@ -33,7 +33,7 @@ public class RoomServiceImpl implements RoomService {
     public Room createRoom(RoomDTO roomDTO) {
         Room room = new Room();
         room.setTitle(roomDTO.getTitle());
-        room.setSub_title(roomDTO.getSub_title());
+        room.setSubTitle(roomDTO.getSubTitle());
         room.setDate(roomDTO.getDate());
         room.setCreator(roomDTO.getCreator());
         room.setCategory(roomDTO.getCategory());
