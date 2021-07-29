@@ -16,6 +16,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -49,6 +50,7 @@ public class Room {
     private List<Category> category; // 카테고리
 
     @Column(name = "capacity")
+    @NotNull
     private int capacity; // 방 입장 제한인원수
 
     @Column(name = "creator")
