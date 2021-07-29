@@ -3,6 +3,7 @@ package woosap.Pepple.dto;
 import java.io.Serializable;
 import java.util.List;
 
+import javax.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -17,6 +18,7 @@ import woosap.Pepple.entity.type.Job;
 public class UserDTO implements Serializable {
     private String userId;
 
+    @NotBlank(message = "닉네임을 입력 해주세요")
     private String nickname;
 
     private String imageUrl;

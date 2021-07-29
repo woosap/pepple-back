@@ -40,6 +40,6 @@ public class User {
     private String profile;
 
     @ElementCollection
-    @CollectionTable(name ="sns_list", joinColumns = @JoinColumn(name = "userId"))
+    @CollectionTable(name ="sns_list", joinColumns = @JoinColumn(name = "user_id"))
     private List<String> snsList;
 }

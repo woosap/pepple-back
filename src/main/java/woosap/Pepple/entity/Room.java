@@ -31,7 +31,7 @@ public class Room {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private String roomId;
+    private long roomId;
 
     @Column(name = "title", nullable = false, unique = true)
     private String title;
@@ -42,19 +42,13 @@ public class Room {
     private LocalDateTime date; // 생성 시간 : 년월일 시분초
 
     @ElementCollection
-    @CollectionTable(name = "category", joinColumns = @JoinColumn(name = "select_sategory"))
+    @CollectionTable(name = "category", joinColumns = @JoinColumn(name = "category_id"))
     private List<Category> category; // 카테고리
 
     @Column(name = "capacity")
     private int capacity; // 방 입장 제한인원수
 
-    @Column(name = "peoples")
-    private int peoples; // 현재 인원수
-
-    @Column(name = "maker")
-    private String maker; // 방 개설자
-
-//    @OneToMany
-//    private List<User> userV; // 같은 방에 있는 Client 정보
+    @Column(name = "creator")
+    private String creator; // 방 개설자
 
 }
