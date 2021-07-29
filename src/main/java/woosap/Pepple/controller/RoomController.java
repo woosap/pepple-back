@@ -41,11 +41,8 @@ public class RoomController {
 
     @GetMapping("/capacity")
     public ResponseEntity<String> checkCapacity(@RequestParam(name = "peoples") int peoples,
-        @Valid RoomDTO roomDTO, BindingResult bindingResult) {
+        @Valid RoomDTO roomDTO) {
 
-        if (bindingResult.hasErrors()) {
-            bindingResult.getAllErrors().forEach(error -> log.error(error.getDefaultMessage()));
-        }
         if (!roomService.checkCapacity(roomDTO.getCapacity(), peoples)) {
             return new ResponseEntity<>("입장 인원을 초과하였습니다.", HttpStatus.CONFLICT);
         }
@@ -53,12 +50,9 @@ public class RoomController {
     }
 
     @PostMapping("/create")
-    public ResponseEntity<?> creatRoom(@Valid RoomDTO roomInfo, BindingResult bindingResult,
+    public ResponseEntity<?> creatRoom(@Valid RoomDTO roomInfo,
         HttpServletRequest httpServletRequest) {
 
-        if (bindingResult.hasErrors()) {
-            bindingResult.getAllErrors().forEach(error -> log.error(error.getDefaultMessage()));
-        }
         roomService.createRoom(roomInfo);
         return new ResponseEntity<>(new ResponseDTO("방을 만들었습니다", true), HttpStatus.CREATED);
     }
