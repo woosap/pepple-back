@@ -16,6 +16,6 @@ public class ForDebug {
     public void wrongRequestHandler(HttpServletRequest request, Exception e) {
 
 
-        log.info(e.getMessage());
+        log.error(e.getMessage());
     }
 }

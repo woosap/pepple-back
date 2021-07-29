@@ -9,8 +9,11 @@ import javax.persistence.CollectionTable;
 import javax.persistence.Column;
 import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import lombok.AllArgsConstructor;
@@ -27,13 +30,15 @@ import woosap.Pepple.entity.type.Category;
 public class Room {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private String roomId;
+
     @Column(name = "title", nullable = false, unique = true)
     private String title;
 
     @Column(name = "sub_title")
     private String sub_title;
 
-    //@Temporal(TemporalType.TIMESTAMP)
     private LocalDateTime date; // 생성 시간 : 년월일 시분초
 
     @ElementCollection
@@ -49,8 +54,7 @@ public class Room {
     @Column(name = "maker")
     private String maker; // 방 개설자
 
-    @ElementCollection
-    @CollectionTable(name = "room_user", joinColumns = @JoinColumn(name = "clinets_info"))
-    private List<User> userV; // 같은 방에 있는 Client 정보
+//    @OneToMany
+//    private List<User> userV; // 같은 방에 있는 Client 정보
 
 }

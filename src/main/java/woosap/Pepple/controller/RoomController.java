@@ -63,4 +63,5 @@ public class RoomController {
         return new ResponseEntity<>(new ResponseDTO("방을 만들었습니다", true), HttpStatus.CREATED);
     }
 
+//    @GetMapping
 }
