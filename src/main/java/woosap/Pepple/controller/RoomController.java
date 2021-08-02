@@ -1,9 +1,13 @@
 package woosap.Pepple.controller;
 
+import java.util.List;
+import java.util.stream.Collectors;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
@@ -16,6 +20,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import woosap.Pepple.dto.ResponseDTO;
 import woosap.Pepple.dto.RoomDTO;
+import woosap.Pepple.entity.Room;
 import woosap.Pepple.security.TokenServiceImpl;
 import woosap.Pepple.service.RoomServiceImpl;
 import woosap.Pepple.service.UserServiceImpl;
@@ -41,11 +46,8 @@ public class RoomController {
 
     @GetMapping("/capacity")
     public ResponseEntity<String> checkCapacity(@RequestParam(name = "peoples") int peoples,
-        @Valid RoomDTO roomDTO, BindingResult bindingResult) {
+        @Valid RoomDTO roomDTO) {
 
-        if (bindingResult.hasErrors()) {
-            bindingResult.getAllErrors().forEach(error -> log.error(error.getDefaultMessage()));
-        }
         if (!roomService.checkCapacity(roomDTO.getCapacity(), peoples)) {
             return new ResponseEntity<>("입장 인원을 초과하였습니다.", HttpStatus.CONFLICT);
         }
@@ -53,14 +55,23 @@ public class RoomController {
     }
 
     @PostMapping("/create")
-    public ResponseEntity<?> creatRoom(@Valid RoomDTO roomInfo, BindingResult bindingResult,
+    public ResponseEntity<?> creatRoom(@Valid RoomDTO roomInfo,
         HttpServletRequest httpServletRequest) {
 
-        if (bindingResult.hasErrors()) {
-            bindingResult.getAllErrors().forEach(error -> log.error(error.getDefaultMessage()));
-        }
         roomService.createRoom(roomInfo);
         return new ResponseEntity<>(new ResponseDTO("방을 만들었습니다", true), HttpStatus.CREATED);
     }
 
+    @GetMapping
+    public ResponseEntity<List<RoomDTO>> getRooms(Pageable page) {
+        log.info("getRooms called");
+        log.info("page is {}", page);
+        Page<Room> roomsWithPage = roomService.getRoomsWithPage(page);
+        List<RoomDTO> rooms = roomsWithPage
+            .toList()
+            .stream()
+            .map(roomEntity -> roomEntity.entityToDto(roomEntity))
+            .collect(Collectors.toList());
+        return new ResponseEntity<>(rooms, HttpStatus.OK);
+    }
 }
