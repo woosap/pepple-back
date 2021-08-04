@@ -37,20 +37,14 @@ public class UserController {
     @PostMapping("/user")
     @ApiOperation(value = "회원가입시 추가정보를 입력", notes = "성공시 토큰을 리턴합니다")
     public ResponseEntity<?> joinWithDetails(@SavedInfo SessionSaveInfo savedInfo, @Valid UserDTO userDTO,
-                                                        BindingResult bindingResult,
                                                         HttpServletRequest request) {
 
         log.info("join with Details called savedInfo is {}", savedInfo);
 
-        if (savedInfo == null || !userDTO.getUserId().equals(savedInfo.getUserId())) {
-            ResponseDTO responseDTO = new ResponseDTO("잘못된 접근입니다", false);
-            return new ResponseEntity<>(responseDTO, HttpStatus.BAD_REQUEST);
-        }
-
-        if (bindingResult.hasErrors()) {
-            bindingResult.getAllErrors()
-                .forEach(error -> log.error(error.getDefaultMessage()));
-        }
+//        if (savedInfo == null || !userDTO.getUserId().equals(savedInfo.getUserId())) {
+//            ResponseDTO responseDTO = new ResponseDTO("잘못된 접근입니다", false);
+//            return new ResponseEntity<>(responseDTO, HttpStatus.BAD_REQUEST);
+//        }
 
         User user = new User();
 
@@ -63,20 +57,14 @@ public class UserController {
             log.error("Database Error -> failed to save");
             return new ResponseEntity<>(responseDTO, HttpStatus.INTERNAL_SERVER_ERROR);
         }
-        String token = tokenService.createToken(savedInfo.getUserId());
-        request.getSession().invalidate();
+        String token = tokenService.createToken(userDTO.getUserId());
+        //request.getSession().invalidate();
         return new ResponseEntity<>(new TokenDTO(token), HttpStatus.CREATED);
     }
 
     @PutMapping("/user")
     @ApiOperation(value = "유저정보를 수정합니다", notes = "")
-    public ResponseEntity<ResponseDTO> updateUserInfo(@RequestBody @Valid UserDTO userInfo, BindingResult bindingResult) {
-
-        if (bindingResult.hasErrors()) {
-            bindingResult.getAllErrors()
-                .forEach(error -> log.error(error.getDefaultMessage()));
-            return new ResponseEntity<>(new ResponseDTO("입력오류, 입력값들을 다시 확인해주세요", false), HttpStatus.BAD_REQUEST);
-        }
+    public ResponseEntity<ResponseDTO> updateUserInfo(@RequestBody @Valid UserDTO userInfo) {
         userService.updateUser(userInfo);
         return new ResponseEntity<>(new ResponseDTO("수정되었습니다", true), HttpStatus.OK);
     }
@@ -84,6 +72,11 @@ public class UserController {
     @GetMapping("/nickname")
     @ApiOperation(value = "닉네임", notes = "닉네임 중복체크")
     public ResponseEntity<String> checkNickname(@RequestParam(name = "nickname") String nickname) {
+
+        if (nickname.length() > 8) {
+            return new ResponseEntity<>("닉네임은 8글자 까지입니다.", HttpStatus.BAD_REQUEST);
+        }
+
         Boolean result = userService.nicknameDuplicateCheck(nickname);
 
         if (result) {
