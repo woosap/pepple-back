@@ -44,30 +44,7 @@ public class RoomServiceImpl implements RoomService {
     }
 
     @Override
-    public void plusUserCount(Room room) {
-        Room tmp = new Room();
-        tmp.setPeoples(room.getPeoples() + 1);
-        roomRepository.save(tmp);
-    }
-
-    @Override
-    public void minusUserCount(Room room) {
-        Room tmp = new Room();
-        tmp.setPeoples(room.getPeoples() - 1);
-        roomRepository.save(tmp);
-    }
-
-    @Override
-    public void removeRoom(RoomDTO roomDTO) {
-        Room room = new Room();
-        room.setTitle(roomDTO.getTitle());
-        room.setSub_title(roomDTO.getSub_title());
-        room.setDate(roomDTO.getDate());
-        room.setMaker(roomDTO.getMaker());
-        room.setCategory(roomDTO.getCategory());
-        room.setCapacity(roomDTO.getCapacity());
-        room.setPeoples(roomDTO.getPeoples());
-        room.setUserV(roomDTO.getUserV());
+    public void removeRoom(Room room) {
         roomRepository.delete(room);
     }
 

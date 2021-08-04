@@ -14,10 +14,7 @@ public interface RoomService {
     public Room createRoom(RoomDTO roomDTO);
 
     public Page<Room> getRoomsWithPage(Pageable page);
-    public void plusUserCount(Room room);
 
-    public void minusUserCount(Room room);
-
-    public void removeRoom(RoomDTO roomDTO);
+    public void removeRoom(Room room);
 
 }
