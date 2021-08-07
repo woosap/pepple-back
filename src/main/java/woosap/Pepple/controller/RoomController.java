@@ -20,7 +20,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import woosap.Pepple.dto.ResponseDTO;
 import woosap.Pepple.dto.RoomDTO;
+import woosap.Pepple.dto.UserDTO;
 import woosap.Pepple.entity.Room;
+import woosap.Pepple.entity.UserRoom;
 import woosap.Pepple.security.TokenServiceImpl;
 import woosap.Pepple.service.RoomServiceImpl;
 import woosap.Pepple.service.UserServiceImpl;
@@ -54,12 +56,25 @@ public class RoomController {
         return new ResponseEntity<>("입장할수 있습니다", HttpStatus.OK);
     }
 
+    @PostMapping("/enter")
+    public ResponseEntity<?> enterRoom(@Valid UserDTO userInfo, @Valid RoomDTO roomInfo,
+        HttpServletRequest httpServletRequest) {
+        roomService.enterRoom(userInfo, roomInfo);
+        return new ResponseEntity<>(new ResponseDTO("방에 입장했습니다.", true), HttpStatus.OK);
+    }
+
     @PostMapping("/create")
     public ResponseEntity<?> creatRoom(@Valid RoomDTO roomInfo,
         HttpServletRequest httpServletRequest) {
 
         roomService.createRoom(roomInfo);
         return new ResponseEntity<>(new ResponseDTO("방을 만들었습니다", true), HttpStatus.CREATED);
+    }
+
+    @PostMapping("/delete")
+    public ResponseEntity<?> removeRoom(@Valid Room room, HttpServletRequest httpServletRequest) {
+        roomService.removeRoom(room);
+        return new ResponseEntity<>(new ResponseDTO("방을 삭제했습니다.", true), HttpStatus.OK);
     }
 
     @GetMapping
