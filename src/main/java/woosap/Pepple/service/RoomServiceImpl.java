@@ -29,8 +29,9 @@ public class RoomServiceImpl implements RoomService {
     }
 
     @Override
-    public Boolean checkCapacity(int capacity, int peoples) {
-        if (capacity >= peoples) {
+    public Boolean checkCapacity(RoomDTO roomDTO) {
+        long peoples = userRoomRepository.countByUserId(roomDTO.getRoomId());
+        if (roomDTO.getCapacity() > peoples) {
             return true;
         }
         return false;
