@@ -62,7 +62,7 @@ public class RoomController {
     }
 
     @PostMapping("/leave")
-    public ResponseEntity<?> removeRoom(@Valid UserRoomDTO userRoomInfo) {
+    public ResponseEntity<?> leaveRoom(@Valid UserRoomDTO userRoomInfo) {
         log.info("{} leaves the room: {}", userRoomInfo.getUserId(), userRoomInfo.getRoomId());
         roomService.leaveRoom(userRoomInfo);
         return new ResponseEntity<>(new ResponseDTO("방에서 나갔습니다", true), HttpStatus.OK);
@@ -80,4 +80,5 @@ public class RoomController {
             .collect(Collectors.toList());
         return new ResponseEntity<>(rooms, HttpStatus.OK);
     }
+
 }
