@@ -31,7 +31,7 @@ public class RoomServiceImpl implements RoomService {
 
     @Override
     public Boolean checkCapacity(UserRoomDTO userRoomDTO) {
-        long peopleCount = userRoomRepository.countByUserId(userRoomDTO.getRoomId());
+        long peopleCount = userRoomRepository.countByRoomId(userRoomDTO.getRoomId());
         Room room = roomRepository.findByRoomId(userRoomDTO.getRoomId())
             .orElseThrow(RuntimeException::new);
         if (room.getCapacity() > peopleCount) {
@@ -76,7 +76,7 @@ public class RoomServiceImpl implements RoomService {
 
     @Override
     public Boolean checkPeopleCount(UserRoomDTO userRoomDTO) {
-        long peopleCount = userRoomRepository.countByUserId(userRoomDTO.getRoomId());
+        long peopleCount = userRoomRepository.countByRoomId(userRoomDTO.getRoomId());
         if (peopleCount != 0) {
             return false;
         }

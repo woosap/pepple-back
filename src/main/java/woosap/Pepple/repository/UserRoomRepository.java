@@ -7,5 +7,5 @@ import woosap.Pepple.entity.UserRoom;
 
 public interface UserRoomRepository extends JpaRepository<UserRoom, String> {
 
-    long countByUserId(long roomId);
+    long countByRoomId(long roomId);
 }
