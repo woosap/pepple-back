@@ -22,6 +22,8 @@ public interface RoomService {
 
     public Boolean checkPeopleCount(UserRoomDTO userRoomDTO);
 
-    public void removeRoom(UserRoomDTO userRoomDTO);
+    public void removeRoom(long roomId);
+
+    public void leaveRoom(UserRoomDTO userRoomDTO);
 
 }

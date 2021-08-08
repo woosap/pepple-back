@@ -14,9 +14,9 @@ import lombok.Setter;
 @NoArgsConstructor
 public class UserRoomDTO implements Serializable {
 
-    @NotNull
+    @NotNull(message = "유저 아이디를 입력해주세요")
     private String userId;
 
-    @NotNull
+    @NotNull(message = "방의 고유 id를 입력해주세요")
     private long roomId;
 }

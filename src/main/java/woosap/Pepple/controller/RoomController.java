@@ -45,19 +45,8 @@ public class RoomController {
         return new ResponseEntity<>("사용 가능한 방 제목입니다", HttpStatus.OK);
     }
 
-//    @GetMapping("/capacity")
-//    public ResponseEntity<String> checkCapacity(@RequestParam(name = "peoples") int peoples,
-//        @Valid RoomDTO roomDTO) {
-//
-//        if (!roomService.checkCapacity(roomDTO.getCapacity(), peoples)) {
-//            return new ResponseEntity<>("입장 인원을 초과하였습니다.", HttpStatus.CONFLICT);
-//        }
-//        return new ResponseEntity<>("입장할수 있습니다", HttpStatus.OK);
-//    }
-
     @PostMapping("/enter")
-    public ResponseEntity<?> enterRoom(@Valid UserRoomDTO userRoomInfo,
-        HttpServletRequest httpServletRequest) {
+    public ResponseEntity<?> enterRoom(@Valid UserRoomDTO userRoomInfo) {
         if (!roomService.checkCapacity(userRoomInfo)) {
             return new ResponseEntity<>(new ResponseDTO("입장 인원을 초과하였습니다", false),
                 HttpStatus.CONFLICT);
@@ -67,21 +56,16 @@ public class RoomController {
     }
 
     @PostMapping("/create")
-    public ResponseEntity<?> creatRoom(@Valid RoomDTO roomInfo,
-        HttpServletRequest httpServletRequest) {
-
+    public ResponseEntity<?> creatRoom(@Valid RoomDTO roomInfo) {
         roomService.createRoom(roomInfo);
         return new ResponseEntity<>(new ResponseDTO("방을 만들었습니다", true), HttpStatus.CREATED);
     }
 
     @PostMapping("/leave")
-    public ResponseEntity<?> removeRoom(@Valid UserRoomDTO userRoomInfo) {
-        if (!roomService.checkPeopleCount(userRoomInfo)) {
-            return new ResponseEntity<>(new ResponseDTO("남아있는 사람이 있습니다.", false),
-                HttpStatus.BAD_REQUEST);
-        }
-        roomService.removeRoom(userRoomInfo);
-        return new ResponseEntity<>(new ResponseDTO("방을 삭제했습니다.", true), HttpStatus.OK);
+    public ResponseEntity<?> leaveRoom(@Valid UserRoomDTO userRoomInfo) {
+        log.info("{} leaves the room: {}", userRoomInfo.getUserId(), userRoomInfo.getRoomId());
+        roomService.leaveRoom(userRoomInfo);
+        return new ResponseEntity<>(new ResponseDTO("방에서 나갔습니다", true), HttpStatus.OK);
     }
 
     @GetMapping
@@ -96,4 +80,5 @@ public class RoomController {
             .collect(Collectors.toList());
         return new ResponseEntity<>(rooms, HttpStatus.OK);
     }
+
 }

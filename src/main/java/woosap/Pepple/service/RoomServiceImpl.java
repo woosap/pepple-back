@@ -1,5 +1,6 @@
 package woosap.Pepple.service;
 
+import javax.transaction.Transactional;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -46,7 +47,6 @@ public class RoomServiceImpl implements RoomService {
         room.setTitle(roomDTO.getTitle());
         room.setSubTitle(roomDTO.getSubTitle());
         room.setDate(roomDTO.getDate());
-        room.setCreator(roomDTO.getCreator());
         room.setCategory(roomDTO.getCategory());
         room.setCapacity(roomDTO.getCapacity());
 
@@ -63,10 +63,22 @@ public class RoomServiceImpl implements RoomService {
     }
 
     @Override
-    public void removeRoom(UserRoomDTO userRoomDTO) {
-        Room room = roomRepository.findByRoomId(userRoomDTO.getRoomId())
+    public void removeRoom(long roomId) {
+        Room room = roomRepository.findByRoomId(roomId)
             .orElseThrow(RuntimeException::new);
         roomRepository.delete(room);
+    }
+
+    @Override
+    @Transactional
+    public void leaveRoom(UserRoomDTO userRoomDTO) {
+        long roomId = userRoomDTO.getRoomId();
+        String userId = userRoomDTO.getUserId();
+        userRoomRepository.leaveUserFromRoom(roomId, userId);
+        // 방에 사람이 없을 경우 -> 다 나간 케이스 -> 삭제
+        if (!userRoomRepository.existsByRoomId(roomId)) {
+            removeRoom(roomId);
+        }
     }
 
     @Override
