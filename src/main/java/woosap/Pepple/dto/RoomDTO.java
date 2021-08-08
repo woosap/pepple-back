@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.Vector;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import lombok.AllArgsConstructor;
@@ -16,6 +17,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.validator.constraints.Range;
 import woosap.Pepple.entity.User;
 import woosap.Pepple.entity.type.Category;
 
@@ -39,7 +41,8 @@ public class RoomDTO implements Serializable {
     @NotNull(message = "카테고리를 입력해주세요")
     private List<Category> category; // 카테고리
 
-    @Size(min = 1, max = 6, message = "인원수는 1명에서 6명 사이입니다")
+    @NotNull
+    @Range(min = 1, max = 6, message = "인원수는 1명에서 6명 사이입니다")
     private int capacity; // 방 입장 제한인원수
 
 }

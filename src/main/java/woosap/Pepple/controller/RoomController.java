@@ -47,6 +47,7 @@ public class RoomController {
 
     @PostMapping("/enter")
     public ResponseEntity<?> enterRoom(@Valid UserRoomDTO userRoomInfo) {
+        log.info("enterRoom call");
         if (!roomService.checkCapacity(userRoomInfo)) {
             return new ResponseEntity<>(new ResponseDTO("입장 인원을 초과하였습니다", false),
                 HttpStatus.CONFLICT);
@@ -57,6 +58,7 @@ public class RoomController {
 
     @PostMapping("/create")
     public ResponseEntity<?> creatRoom(@Valid RoomDTO roomInfo) {
+        log.info("creatRoom call");
         roomService.createRoom(roomInfo);
         return new ResponseEntity<>(new ResponseDTO("방을 만들었습니다", true), HttpStatus.CREATED);
     }
