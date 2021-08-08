@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.RestController;
 import woosap.Pepple.dto.ResponseDTO;
 import woosap.Pepple.dto.RoomDTO;
 import woosap.Pepple.dto.UserDTO;
+import woosap.Pepple.dto.UserRoomDTO;
 import woosap.Pepple.entity.Room;
 import woosap.Pepple.entity.UserRoom;
 import woosap.Pepple.security.TokenServiceImpl;
@@ -57,12 +58,13 @@ public class RoomController {
 //    }
 
     @PostMapping("/enter")
-    public ResponseEntity<?> enterRoom(@Valid UserDTO userInfo, @Valid RoomDTO roomInfo,
+    public ResponseEntity<?> enterRoom(@Valid UserRoomDTO userRoomInfo,
         HttpServletRequest httpServletRequest) {
-        if (!roomService.checkCapacity(roomInfo)) {
-            return new ResponseEntity<>(new ResponseDTO("입장 인원을 초과하였습니다", false), HttpStatus.CONFLICT);
+        if (!roomService.checkCapacity(userRoomInfo)) {
+            return new ResponseEntity<>(new ResponseDTO("입장 인원을 초과하였습니다", false),
+                HttpStatus.CONFLICT);
         }
-        roomService.enterRoom(userInfo, roomInfo);
+        roomService.enterRoom(userRoomInfo);
         return new ResponseEntity<>(new ResponseDTO("방에 입장했습니다.", true), HttpStatus.OK);
     }
 
@@ -75,8 +77,13 @@ public class RoomController {
     }
 
     @PostMapping("/delete")
-    public ResponseEntity<?> removeRoom(@Valid Room room, HttpServletRequest httpServletRequest) {
-        roomService.removeRoom(room);
+    public ResponseEntity<?> removeRoom(@Valid UserRoomDTO userRoomInfo,
+        HttpServletRequest httpServletRequest) {
+        if (!roomService.checkPeopleCount(userRoomInfo)) {
+            return new ResponseEntity<>(new ResponseDTO("남아있는 사람이 있습니다.", false),
+                HttpStatus.BAD_REQUEST);
+        }
+        roomService.removeRoom(userRoomInfo);
         return new ResponseEntity<>(new ResponseDTO("방을 삭제했습니다.", true), HttpStatus.OK);
     }
 

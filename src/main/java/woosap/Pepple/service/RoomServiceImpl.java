@@ -5,6 +5,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import woosap.Pepple.dto.RoomDTO;
 import woosap.Pepple.dto.UserDTO;
+import woosap.Pepple.dto.UserRoomDTO;
 import woosap.Pepple.entity.Room;
 import woosap.Pepple.entity.UserRoom;
 import woosap.Pepple.repository.RoomRepository;
@@ -29,9 +30,11 @@ public class RoomServiceImpl implements RoomService {
     }
 
     @Override
-    public Boolean checkCapacity(RoomDTO roomDTO) {
-        long peoples = userRoomRepository.countByUserId(roomDTO.getRoomId());
-        if (roomDTO.getCapacity() > peoples) {
+    public Boolean checkCapacity(UserRoomDTO userRoomDTO) {
+        long peopleCount = userRoomRepository.countByUserId(userRoomDTO.getRoomId());
+        Room room = roomRepository.findByRoomId(userRoomDTO.getRoomId())
+            .orElseThrow(RuntimeException::new);
+        if (room.getCapacity() > peopleCount) {
             return true;
         }
         return false;
@@ -51,22 +54,32 @@ public class RoomServiceImpl implements RoomService {
     }
 
     @Override
-    public UserRoom enterRoom(UserDTO userDTO, RoomDTO roomDTO) {
+    public UserRoom enterRoom(UserRoomDTO userRoomDTO) {
         UserRoom userRoom = new UserRoom();
-        userRoom.setUserId(userDTO.getUserId());
-        userRoom.setRoomId(roomDTO.getRoomId());
+        userRoom.setUserId(userRoomDTO.getUserId());
+        userRoom.setRoomId(userRoomDTO.getRoomId());
 
         return userRoomRepository.save(userRoom);
     }
 
     @Override
-    public void removeRoom(Room room) {
-
+    public void removeRoom(UserRoomDTO userRoomDTO) {
+        Room room = roomRepository.findByRoomId(userRoomDTO.getRoomId())
+            .orElseThrow(RuntimeException::new);
         roomRepository.delete(room);
     }
 
     @Override
     public Page<Room> getRoomsWithPage(Pageable page) {
         return roomRepository.findAll(page);
+    }
+
+    @Override
+    public Boolean checkPeopleCount(UserRoomDTO userRoomDTO) {
+        long peopleCount = userRoomRepository.countByUserId(userRoomDTO.getRoomId());
+        if (peopleCount != 0) {
+            return false;
+        }
+        return true;
     }
 }

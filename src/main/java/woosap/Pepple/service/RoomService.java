@@ -4,6 +4,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import woosap.Pepple.dto.RoomDTO;
 import woosap.Pepple.dto.UserDTO;
+import woosap.Pepple.dto.UserRoomDTO;
 import woosap.Pepple.entity.Room;
 import woosap.Pepple.entity.UserRoom;
 
@@ -11,14 +12,16 @@ public interface RoomService {
 
     public Boolean titleDuplicateCheck(String title);
 
-    public Boolean checkCapacity(RoomDTO roomDTO);
+    public Boolean checkCapacity(UserRoomDTO userRoomDTO);
 
     public Room createRoom(RoomDTO roomDTO);
 
-    public UserRoom enterRoom(UserDTO userDTO, RoomDTO roomDTO);
+    public UserRoom enterRoom(UserRoomDTO userRoomDTO);
 
     public Page<Room> getRoomsWithPage(Pageable page);
 
-    public void removeRoom(Room room);
+    public Boolean checkPeopleCount(UserRoomDTO userRoomDTO);
+
+    public void removeRoom(UserRoomDTO userRoomDTO);
 
 }
