@@ -23,6 +23,6 @@ public class UserRoom {
     private String userId;
 
     @Column(nullable = false)
-    private long RoomId;
+    private long roomId;
 
 }
