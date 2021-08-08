@@ -34,8 +34,6 @@ import woosap.Pepple.service.UserServiceImpl;
 @RequestMapping("/room")
 public class RoomController {
 
-    private final UserServiceImpl userService;
-    private final TokenServiceImpl tokenService;
     private final RoomServiceImpl roomService;
 
     @GetMapping("/title")
@@ -76,9 +74,8 @@ public class RoomController {
         return new ResponseEntity<>(new ResponseDTO("방을 만들었습니다", true), HttpStatus.CREATED);
     }
 
-    @PostMapping("/delete")
-    public ResponseEntity<?> removeRoom(@Valid UserRoomDTO userRoomInfo,
-        HttpServletRequest httpServletRequest) {
+    @PostMapping("/leave")
+    public ResponseEntity<?> removeRoom(@Valid UserRoomDTO userRoomInfo) {
         if (!roomService.checkPeopleCount(userRoomInfo)) {
             return new ResponseEntity<>(new ResponseDTO("남아있는 사람이 있습니다.", false),
                 HttpStatus.BAD_REQUEST);

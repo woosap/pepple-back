@@ -53,16 +53,12 @@ public class Room {
     @NotNull
     private int capacity; // 방 입장 제한인원수
 
-    @Column(name = "creator")
-    private String creator; // 방 개설자
-
     public RoomDTO entityToDto(Room room) {
         return RoomDTO.builder()
             .roomId(room.getRoomId())
             .capacity(room.getCapacity())
             .category(room.getCategory())
             .date(room.getDate())
-            .creator(room.getCreator())
             .subTitle(room.getSubTitle())
             .title(room.getTitle())
             .build();
