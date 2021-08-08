@@ -36,15 +36,6 @@ public class RoomController {
 
     private final RoomServiceImpl roomService;
 
-    @GetMapping("/title")
-    public ResponseEntity<String> checkTitle(@RequestParam(name = "title") String title) {
-        Boolean results = roomService.titleDuplicateCheck(title);
-        if (results) {
-            return new ResponseEntity<>("사용 중인 방 제목입니다", HttpStatus.CONFLICT);
-        }
-        return new ResponseEntity<>("사용 가능한 방 제목입니다", HttpStatus.OK);
-    }
-
     @PostMapping("/enter")
     public ResponseEntity<?> enterRoom(@Valid UserRoomDTO userRoomInfo) {
         log.info("enterRoom call");
@@ -59,6 +50,10 @@ public class RoomController {
     @PostMapping("/create")
     public ResponseEntity<?> creatRoom(@Valid RoomDTO roomInfo) {
         log.info("creatRoom call");
+        if (roomService.titleDuplicateCheck(roomInfo.getTitle())) {
+            return new ResponseEntity<>(new ResponseDTO("사용 중인 방 제목입니다", false),
+                HttpStatus.CONFLICT);
+        }
         roomService.createRoom(roomInfo);
         return new ResponseEntity<>(new ResponseDTO("방을 만들었습니다", true), HttpStatus.CREATED);
     }
