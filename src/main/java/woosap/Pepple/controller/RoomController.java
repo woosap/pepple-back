@@ -63,12 +63,9 @@ public class RoomController {
 
     @PostMapping("/leave")
     public ResponseEntity<?> removeRoom(@Valid UserRoomDTO userRoomInfo) {
-        if (!roomService.checkPeopleCount(userRoomInfo)) {
-            return new ResponseEntity<>(new ResponseDTO("남아있는 사람이 있습니다.", false),
-                HttpStatus.BAD_REQUEST);
-        }
-        roomService.removeRoom(userRoomInfo);
-        return new ResponseEntity<>(new ResponseDTO("방을 삭제했습니다.", true), HttpStatus.OK);
+        log.info("{} leaves the room: {}", userRoomInfo.getUserId(), userRoomInfo.getRoomId());
+        roomService.leaveRoom(userRoomInfo);
+        return new ResponseEntity<>(new ResponseDTO("방에서 나갔습니다", true), HttpStatus.OK);
     }
 
     @GetMapping
