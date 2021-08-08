@@ -46,7 +46,6 @@ public class RoomServiceImpl implements RoomService {
         room.setTitle(roomDTO.getTitle());
         room.setSubTitle(roomDTO.getSubTitle());
         room.setDate(roomDTO.getDate());
-        room.setCreator(roomDTO.getCreator());
         room.setCategory(roomDTO.getCategory());
         room.setCapacity(roomDTO.getCapacity());
 

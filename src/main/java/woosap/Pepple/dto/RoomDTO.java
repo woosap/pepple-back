@@ -42,6 +42,4 @@ public class RoomDTO implements Serializable {
     @Size(min = 1, max = 6, message = "인원수는 1명에서 6명 사이입니다")
     private int capacity; // 방 입장 제한인원수
 
-    @NotBlank(message = "방 개설자를 입력 해주세요")
-    private String creator; // 방 개설자
 }
