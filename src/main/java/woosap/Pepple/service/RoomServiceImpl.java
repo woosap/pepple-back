@@ -1,15 +1,20 @@
 package woosap.Pepple.service;
 
+import java.time.LocalDateTime;
+import java.util.List;
+import java.util.stream.Collectors;
 import javax.transaction.Transactional;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import woosap.Pepple.dto.RoomDTO;
-import woosap.Pepple.dto.UserDTO;
 import woosap.Pepple.dto.UserRoomDTO;
 import woosap.Pepple.entity.Room;
+import woosap.Pepple.entity.RoomType;
 import woosap.Pepple.entity.UserRoom;
+import woosap.Pepple.entity.type.Category;
 import woosap.Pepple.repository.RoomRepository;
+import woosap.Pepple.repository.RoomTypeRepository;
 import woosap.Pepple.repository.UserRoomRepository;
 
 @Service
@@ -19,10 +24,14 @@ public class RoomServiceImpl implements RoomService {
 
     private final UserRoomRepository userRoomRepository;
 
+    private final RoomTypeRepository roomTypeRepository;
+
     public RoomServiceImpl(RoomRepository roomRepository,
-        UserRoomRepository userRoomRepository) {
+        UserRoomRepository userRoomRepository,
+        RoomTypeRepository roomTypeRepository) {
         this.roomRepository = roomRepository;
         this.userRoomRepository = userRoomRepository;
+        this.roomTypeRepository = roomTypeRepository;
     }
 
     @Override
@@ -42,15 +51,20 @@ public class RoomServiceImpl implements RoomService {
     }
 
     @Override
-    public Room createRoom(RoomDTO roomDTO) {
+    public void createRoom(RoomDTO roomDTO) {
         Room room = new Room();
         room.setTitle(roomDTO.getTitle());
         room.setSubTitle(roomDTO.getSubTitle());
-        room.setDate(roomDTO.getDate());
-        room.setCategory(roomDTO.getCategory());
+        room.setDate(LocalDateTime.now());
         room.setCapacity(roomDTO.getCapacity());
+        Room savedRoom = roomRepository.save(room);
+        List<Category> categoryList = roomDTO.getCategory();
+        List<RoomType> roomTypeList = categoryList
+            .stream()
+            .map(category -> new RoomType(null, savedRoom, category))
+            .collect(Collectors.toList());
+        roomTypeRepository.saveAll(roomTypeList);
 
-        return roomRepository.save(room);
     }
 
     @Override
@@ -82,8 +96,8 @@ public class RoomServiceImpl implements RoomService {
     }
 
     @Override
-    public Page<Room> getRoomsWithPage(Pageable page) {
-        return roomRepository.findAll(page);
+    public List<Room> getRoomsWithPage(Pageable page) {
+        return roomRepository.findAllWithRoomType(page);
     }
 
     @Override

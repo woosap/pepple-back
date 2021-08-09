@@ -18,6 +18,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.validator.constraints.Range;
+import org.springframework.format.annotation.DateTimeFormat;
 import woosap.Pepple.entity.User;
 import woosap.Pepple.entity.type.Category;
 
@@ -36,6 +37,7 @@ public class RoomDTO implements Serializable {
     @NotBlank(message = "스터디에 대해 잘 알 수 있게 적어주세요!")
     private String subTitle; // 소제목
 
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime date; // 생성 시간
 
     @NotNull(message = "카테고리를 입력해주세요")

@@ -7,6 +7,7 @@ import javax.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -67,11 +68,11 @@ public class RoomController {
 
     @GetMapping
     public ResponseEntity<List<RoomDTO>> getRooms(Pageable page) {
+        PageRequest.of(page.getPageNumber(), page.getPageSize(), page.getSort().descending());
         log.info("getRooms called");
         log.info("page is {}", page);
-        Page<Room> roomsWithPage = roomService.getRoomsWithPage(page);
+        List<Room> roomsWithPage = roomService.getRoomsWithPage(page);
         List<RoomDTO> rooms = roomsWithPage
-            .toList()
             .stream()
             .map(roomEntity -> roomEntity.entityToDto(roomEntity))
             .collect(Collectors.toList());

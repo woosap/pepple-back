@@ -1,5 +1,6 @@
 package woosap.Pepple.service;
 
+import java.util.List;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import woosap.Pepple.dto.RoomDTO;
@@ -14,11 +15,11 @@ public interface RoomService {
 
     public Boolean checkCapacity(UserRoomDTO userRoomDTO);
 
-    public Room createRoom(RoomDTO roomDTO);
+    public void createRoom(RoomDTO roomDTO);
 
     public UserRoom enterRoom(UserRoomDTO userRoomDTO);
 
-    public Page<Room> getRoomsWithPage(Pageable page);
+    public List<Room> getRoomsWithPage(Pageable page);
 
     public Boolean checkPeopleCount(UserRoomDTO userRoomDTO);
 

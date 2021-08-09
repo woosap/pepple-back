@@ -7,6 +7,7 @@ import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import lombok.AllArgsConstructor;
@@ -39,7 +40,7 @@ public class User {
     @Column
     private String profile;
 
-    @ElementCollection
+    @ElementCollection(fetch = FetchType.EAGER)
     @CollectionTable(name ="sns_list", joinColumns = @JoinColumn(name = "user_id"))
     private List<String> snsList;
 }
