@@ -10,6 +10,7 @@ import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -40,7 +41,6 @@ public class User {
     @Column
     private String profile;
 
-    @ElementCollection(fetch = FetchType.EAGER)
-    @CollectionTable(name ="sns_list", joinColumns = @JoinColumn(name = "user_id"))
-    private List<String> snsList;
+    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
+    private List<UserSNS> snsList;
 }
