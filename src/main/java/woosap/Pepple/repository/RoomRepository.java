@@ -14,6 +14,6 @@ public interface RoomRepository extends JpaRepository<Room, String> {
 
     Optional<Room> findByRoomId(long roomId);
 
-    @Query("SELECT r FROM Room r JOIN FETCH r.category")
+    @Query("SELECT r FROM Room r JOIN FETCH r.category ORDER BY r.date DESC")
     List<Room> findAllWithRoomType(Pageable pageable);
 }
