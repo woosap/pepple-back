@@ -9,6 +9,7 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import woosap.Pepple.entity.User;
+import woosap.Pepple.entity.UserSNS;
 import woosap.Pepple.entity.type.Job;
 
 public class CustomUserDetails implements UserDetails, OAuth2User {
@@ -18,12 +19,12 @@ public class CustomUserDetails implements UserDetails, OAuth2User {
     private String imageUrl;
     private Job job;
     private String profile;
-    private List<String> snsList;
+    private List<UserSNS> snsList;
     private Collection<? extends GrantedAuthority> authorities;
     private Map<String, Object> attributes;
 
     public CustomUserDetails(String id, String nickname, String imageUrl,
-                                Job job, String profile, List<String> snsList,
+                                Job job, String profile, List<UserSNS> snsList,
                                 Collection<? extends GrantedAuthority> authorities) {
         this.id = id;
         this.nickname = nickname;
@@ -114,7 +115,7 @@ public class CustomUserDetails implements UserDetails, OAuth2User {
         return profile;
     }
 
-    public List<String> getSnsList() {
+    public List<UserSNS> getSnsList() {
         return snsList;
     }
 }

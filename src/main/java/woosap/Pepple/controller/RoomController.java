@@ -68,7 +68,6 @@ public class RoomController {
 
     @GetMapping
     public ResponseEntity<List<RoomDTO>> getRooms(Pageable page) {
-        PageRequest.of(page.getPageNumber(), page.getPageSize(), page.getSort().descending());
         log.info("getRooms called");
         log.info("page is {}", page);
         List<Room> roomsWithPage = roomService.getRoomsWithPage(page);

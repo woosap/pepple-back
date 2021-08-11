@@ -1,6 +1,7 @@
 package woosap.Pepple.controller;
 
 import io.swagger.annotations.ApiOperation;
+import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -38,7 +39,7 @@ public class AuthController {
             currentUser.getImageUrl(),
             currentUser.getJob(),
             currentUser.getProfile(),
-            currentUser.getSnsList());
+            currentUser.getSnsList().stream().map(user -> user.getSns()).collect(Collectors.toList()));
         return new ResponseEntity<>(detail, HttpStatus.OK);
     }
 }

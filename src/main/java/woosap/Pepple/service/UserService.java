@@ -5,7 +5,7 @@ import woosap.Pepple.entity.User;
 
 public interface UserService {
 
-    public User join(User user);
+    public User join(User user, UserDTO userDTO);
 
     public Boolean nicknameDuplicateCheck(String nickname);
 

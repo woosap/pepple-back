@@ -47,15 +47,10 @@ public class UserController {
 
         User user = new User();
 
-        BeanUtils.copyProperties(userDTO, user);
+        //BeanUtils.copyProperties(userDTO, user);
 
-        User savedUser = userService.join(user);
+        User savedUser = userService.join(user, userDTO);
 
-        if (savedUser == null) {
-            ResponseDTO responseDTO = new ResponseDTO("데이터베이스 에러", false);
-            log.error("Database Error -> failed to save");
-            return new ResponseEntity<>(responseDTO, HttpStatus.INTERNAL_SERVER_ERROR);
-        }
         String token = tokenService.createToken(userDTO.getUserId());
         //request.getSession().invalidate();
         return new ResponseEntity<>(new TokenDTO(token), HttpStatus.CREATED);
