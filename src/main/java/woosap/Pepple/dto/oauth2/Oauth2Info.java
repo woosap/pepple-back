@@ -1,8 +1,9 @@
 package woosap.Pepple.dto.oauth2;
 
 import java.util.Map;
+import org.springframework.security.oauth2.core.user.OAuth2User;
 
-public abstract class Oauth2Info {
+public abstract class Oauth2Info implements OAuth2User {
     public Map<String, Object> attributes;
     private String id;
     private String nickname;

@@ -1,6 +1,8 @@
 package woosap.Pepple.dto.oauth2;
 
+import java.util.Collection;
 import java.util.Map;
+import org.springframework.security.core.GrantedAuthority;
 
 public class GoogleUserInfo extends Oauth2Info{
 
@@ -21,5 +23,20 @@ public class GoogleUserInfo extends Oauth2Info{
     @Override
     public String getImagePath() {
         return attributes.get("picture").toString();
+    }
+
+    @Override
+    public <A> A getAttribute(String name) {
+        return super.getAttribute(name);
+    }
+
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return null;
+    }
+
+    @Override
+    public String getName() {
+        return this.getId();
     }
 }

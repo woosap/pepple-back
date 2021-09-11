@@ -20,12 +20,9 @@ import woosap.Pepple.util.Constants;
 public class CustomOAuth2UserService extends DefaultOAuth2UserService {
 
     private final UserRepository userRepository;
-    private final HttpSession session;
 
-    public CustomOAuth2UserService(UserRepository userRepository,
-        HttpSession session) {
+    public CustomOAuth2UserService(UserRepository userRepository) {
         this.userRepository = userRepository;
-        this.session = session;
     }
 
     @Override
@@ -34,18 +31,18 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
         String provider = userRequest.getClientRegistration().getRegistrationId();
         Oauth2ProviderResolver oauth2ProviderResolver= new Oauth2ProviderResolver(provider, authenticatedUser.getAttributes());
         Oauth2Info userInfo = oauth2ProviderResolver.resolve();
-        saveOrToGetAdditionalInfo(userInfo);
-        return authenticatedUser;
+        //saveOrToGetAdditionalInfo(userInfo);
+        return userInfo;
     }
 
-    private void saveOrToGetAdditionalInfo(Oauth2Info userInfo) {
-        Optional<User> user = userRepository.findById(userInfo.getId());
-        if (user.isEmpty()) {
-            // session을 사용하는 이유 - 추가 정보를 받을 때, 기존에 소셜로그인을 통해서 들어왔다는 것을 증명해야 하기 때문에
-            //session.setAttribute(Constants.SESSION_KEY, new SessionSaveInfo(userInfo.getId(), userInfo.getImagePath()));
-            // 추후에 가입후 이 세션을 제거해야 한다.
-        }
-
-    }
+//    private void saveOrToGetAdditionalInfo(Oauth2Info userInfo) {
+//        Optional<User> user = userRepository.findById(userInfo.getId());
+//        if (user.isEmpty()) {
+//            // session을 사용하는 이유 - 추가 정보를 받을 때, 기존에 소셜로그인을 통해서 들어왔다는 것을 증명해야 하기 때문에
+//            //session.setAttribute(Constants.SESSION_KEY, new SessionSaveInfo(userInfo.getId(), userInfo.getImagePath()));
+//            // 추후에 가입후 이 세션을 제거해야 한다.
+//        }
+//
+//    }
 
 }

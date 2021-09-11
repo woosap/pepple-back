@@ -1,8 +1,10 @@
 package woosap.Pepple.dto.oauth2;
 
+import java.util.Collection;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Optional;
+import org.springframework.security.core.GrantedAuthority;
 
 public class KakaoUserInfo extends Oauth2Info{
 
@@ -40,5 +42,20 @@ public class KakaoUserInfo extends Oauth2Info{
             .findFirst();
         return foundEntry.map(attribute -> attribute.getValue().toString())
             .orElse(null);
+    }
+
+    @Override
+    public <A> A getAttribute(String name) {
+        return super.getAttribute(name);
+    }
+
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return null;
+    }
+
+    @Override
+    public String getName() {
+        return this.getId();
     }
 }
