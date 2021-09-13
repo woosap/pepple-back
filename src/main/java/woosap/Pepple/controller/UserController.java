@@ -28,7 +28,6 @@ import woosap.Pepple.util.resolver.SavedInfo;
 @RestController
 @RequiredArgsConstructor
 @Slf4j
-@RequestMapping("/api")
 public class UserController {
 
     private final UserServiceImpl userService;
@@ -36,7 +35,7 @@ public class UserController {
 
     @PostMapping("/user")
     @ApiOperation(value = "회원가입시 추가정보를 입력", notes = "성공시 토큰을 리턴합니다")
-    public ResponseEntity<?> joinWithDetails(@SavedInfo SessionSaveInfo savedInfo, @Valid UserDTO userDTO,
+    public ResponseEntity<?> joinWithDetails(@SavedInfo SessionSaveInfo savedInfo, @Valid @RequestBody UserDTO userDTO,
                                                         HttpServletRequest request) {
         log.info("join with Details called savedInfo is {}", savedInfo);
 
