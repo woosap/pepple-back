@@ -24,6 +24,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User join(User user, UserDTO userDTO) {
+        user.setUserId(userDTO.getUserId());
         user.setProfile(userDTO.getProfile());
         user.setImageUrl(userDTO.getImageUrl());
         user.setJob(userDTO.getJob());
