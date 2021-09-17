@@ -35,23 +35,11 @@ public class UserController {
 
     @PostMapping("/user")
     @ApiOperation(value = "회원가입시 추가정보를 입력", notes = "성공시 토큰을 리턴합니다")
-    public ResponseEntity<?> joinWithDetails(@SavedInfo SessionSaveInfo savedInfo, @Valid @RequestBody UserDTO userDTO,
-                                                        HttpServletRequest request) {
-        log.info("join with Details called savedInfo is {}", savedInfo);
-
-//        if (savedInfo == null || !userDTO.getUserId().equals(savedInfo.getUserId())) {
-//            ResponseDTO responseDTO = new ResponseDTO("잘못된 접근입니다", false);
-//            return new ResponseEntity<>(responseDTO, HttpStatus.BAD_REQUEST);
-//        }
-
+    public ResponseEntity<?> joinWithDetails(@Valid @RequestBody UserDTO userDTO) {
+        log.info("join with Details called");
         User user = new User();
-
-        //BeanUtils.copyProperties(userDTO, user);
-
-        User savedUser = userService.join(user, userDTO);
-
+        userService.join(user, userDTO);
         String token = tokenService.createToken(userDTO.getUserId());
-        //request.getSession().invalidate();
         return new ResponseEntity<>(new TokenDTO(token), HttpStatus.CREATED);
     }
 

@@ -21,6 +21,7 @@ import org.springframework.web.cors.CorsUtils;
 import org.springframework.web.util.UriComponentsBuilder;
 import org.yaml.snakeyaml.util.UriEncoder;
 import woosap.Pepple.config.auth.OnOAuth2FailureHandler;
+import woosap.Pepple.config.auth.OnOAuth2SuccessHandler;
 import woosap.Pepple.dto.oauth2.GithubUserInfo;
 import woosap.Pepple.dto.oauth2.Oauth2Info;
 import woosap.Pepple.security.TokenFilter;
@@ -35,6 +36,7 @@ import woosap.Pepple.util.Constants;
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     private final CustomOAuth2UserService oAuth2UserService;
+    private final OnOAuth2SuccessHandler onOAuth2SuccessHandler;
     private final OnOAuth2FailureHandler oAuth2FailureHandler;
     private final TokenFilter   tokenFilter;
 
@@ -90,37 +92,11 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .userInfoEndpoint()
                     .userService(oAuth2UserService)
                     .and()
-                .successHandler(new OnOAuth2SuccessHandler())
+                .successHandler(onOAuth2SuccessHandler)
                 .failureHandler(oAuth2FailureHandler)
                 .and()
             .addFilterBefore(tokenFilter,
                 UsernamePasswordAuthenticationFilter.class);
     }
 
-    @Slf4j
-    private static class OnOAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandler {
-
-        @Override
-        public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response,
-            Authentication authentication) throws IOException, ServletException {
-
-            String detailRedirectUrl = Constants.REDIRECT_URL + "/register";
-            String redirectUrlWithParams;
-
-            log.info("Success");
-            if (response.isCommitted()) {
-                log.debug("이미 처리된 응답입니다.");
-                return ;
-            }
-
-            Oauth2Info oAuth2User = (Oauth2Info) authentication.getPrincipal();
-
-            redirectUrlWithParams = UriComponentsBuilder.fromUriString(detailRedirectUrl)
-                .queryParam("id", UriEncoder.encode(oAuth2User.getId()))
-                .queryParam("image", UriEncoder.encode(oAuth2User.getImagePath()))
-                .build()
-                .toUriString();
-            getRedirectStrategy().sendRedirect(request, response, redirectUrlWithParams);
-        }
-    }
 }
