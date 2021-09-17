@@ -1,13 +1,13 @@
 package woosap.Pepple.config.auth;
 
 import java.io.IOException;
-import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler;
+import org.springframework.stereotype.Component;
 import org.springframework.web.util.UriComponentsBuilder;
 import org.yaml.snakeyaml.util.UriEncoder;
 import woosap.Pepple.dto.oauth2.Oauth2Info;
@@ -15,6 +15,7 @@ import woosap.Pepple.repository.UserRepository;
 import woosap.Pepple.security.TokenService;
 import woosap.Pepple.util.Constants;
 
+@Component
 @Slf4j
 @RequiredArgsConstructor
 public class OnOAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandler {
@@ -24,7 +25,7 @@ public class OnOAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandle
 
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response,
-        Authentication authentication) throws IOException, ServletException {
+        Authentication authentication) throws IOException {
 
         String detailRedirectUrl = Constants.REDIRECT_URL + "/register";
         String redirectUrlWithParams;

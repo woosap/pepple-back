@@ -1,34 +1,17 @@
 package woosap.Pepple.config;
 
-import java.io.IOException;
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.context.annotation.Bean;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.oauth2.core.user.OAuth2User;
-import org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.cors.CorsUtils;
-import org.springframework.web.util.UriComponentsBuilder;
-import org.yaml.snakeyaml.util.UriEncoder;
 import woosap.Pepple.config.auth.OnOAuth2FailureHandler;
 import woosap.Pepple.config.auth.OnOAuth2SuccessHandler;
-import woosap.Pepple.dto.oauth2.GithubUserInfo;
-import woosap.Pepple.dto.oauth2.Oauth2Info;
 import woosap.Pepple.security.TokenFilter;
-import woosap.Pepple.security.TokenService;
-import woosap.Pepple.security.TokenServiceImpl;
 import woosap.Pepple.service.CustomOAuth2UserService;
-import woosap.Pepple.util.Constants;
 
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true)
