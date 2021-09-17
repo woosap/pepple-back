@@ -27,7 +27,8 @@ public class OnOAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandle
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response,
         Authentication authentication) throws IOException {
 
-        String detailRedirectUrl = Constants.REDIRECT_URL + "/register";
+        String notRegisteredUrl = Constants.REDIRECT_URL + "/register";
+        String registeredUrl = Constants.REDIRECT_URL + "/";
         String redirectUrlWithParams;
 
         log.info("Success");
@@ -41,12 +42,12 @@ public class OnOAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandle
         if (userRepository.existsById(oAuth2User.getId())) {
             log.info("이미 가입한 아이디");
             String token = tokenService.createToken(oAuth2User.getId());
-            redirectUrlWithParams = UriComponentsBuilder.fromUriString(detailRedirectUrl)
+            redirectUrlWithParams = UriComponentsBuilder.fromUriString(registeredUrl)
                 .queryParam("token", UriEncoder.encode(token))
                 .build()
                 .toUriString();
         } else {
-            redirectUrlWithParams = UriComponentsBuilder.fromUriString(detailRedirectUrl)
+            redirectUrlWithParams = UriComponentsBuilder.fromUriString(notRegisteredUrl)
                 .queryParam("id", UriEncoder.encode(oAuth2User.getId()))
                 .queryParam("image", UriEncoder.encode(oAuth2User.getImagePath()))
                 .build()
