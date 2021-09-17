@@ -38,7 +38,7 @@ public class RoomController {
     private final RoomServiceImpl roomService;
 
     @PostMapping("/enter")
-    public ResponseEntity<?> enterRoom(@Valid UserRoomDTO userRoomInfo) {
+    public ResponseEntity<?> enterRoom(@Valid @RequestBody UserRoomDTO userRoomInfo) {
         log.info("enterRoom call");
         if (!roomService.checkCapacity(userRoomInfo)) {
             return new ResponseEntity<>(new ResponseDTO("입장 인원을 초과하였습니다", false),
@@ -49,7 +49,7 @@ public class RoomController {
     }
 
     @PostMapping("/create")
-    public ResponseEntity<?> creatRoom(@Valid RoomDTO roomInfo) {
+    public ResponseEntity<?> creatRoom(@Valid @RequestBody RoomDTO roomInfo) {
         log.info("creatRoom call");
         if (roomService.titleDuplicateCheck(roomInfo.getTitle())) {
             return new ResponseEntity<>(new ResponseDTO("사용 중인 방 제목입니다", false),
@@ -60,7 +60,7 @@ public class RoomController {
     }
 
     @PostMapping("/leave")
-    public ResponseEntity<?> leaveRoom(@Valid UserRoomDTO userRoomInfo) {
+    public ResponseEntity<?> leaveRoom(@Valid @RequestBody UserRoomDTO userRoomInfo) {
         log.info("{} leaves the room: {}", userRoomInfo.getUserId(), userRoomInfo.getRoomId());
         roomService.leaveRoom(userRoomInfo);
         return new ResponseEntity<>(new ResponseDTO("방에서 나갔습니다", true), HttpStatus.OK);

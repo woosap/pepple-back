@@ -14,14 +14,12 @@ import org.springframework.web.bind.annotation.RestController;
 import woosap.Pepple.dto.AuthResponseDTO;
 import woosap.Pepple.dto.UserDTO;
 import woosap.Pepple.dto.oauth2.CustomUserDetails;
-import woosap.Pepple.service.UserService;
 
 @RestController
 @RequiredArgsConstructor
 @Slf4j
 @RequestMapping("/auth")
 public class AuthController {
-    private final UserService userService;
 
     @GetMapping
     @ResponseStatus(value = HttpStatus.OK)
