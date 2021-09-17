@@ -28,7 +28,7 @@ public class OnOAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandle
         Authentication authentication) throws IOException {
 
         String notRegisteredUrl = Constants.REDIRECT_URL + "/register";
-        String registeredUrl = Constants.REDIRECT_URL + "/";
+        String registeredUrl = Constants.REDIRECT_URL;
         String redirectUrlWithParams;
 
         log.info("Success");
