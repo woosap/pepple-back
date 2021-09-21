@@ -48,14 +48,14 @@ public class Room {
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime date; // 생성 시간 : 년월일 시분초
 
-    @OneToMany(mappedBy = "room", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "room", fetch = FetchType.EAGER)
     private List<RoomType> category; // 카테고리
 
     @Column(name = "capacity")
     @NotNull
     private int capacity; // 방 입장 제한인원수
 
-    public RoomDTO entityToDto(Room room) {
+    public static RoomDTO entityToDto(Room room) {
         return RoomDTO.builder()
             .roomId(room.getRoomId())
             .capacity(room.getCapacity())

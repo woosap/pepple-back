@@ -4,6 +4,7 @@ import java.util.List;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import woosap.Pepple.dto.RoomDTO;
+import woosap.Pepple.dto.RoomDetailsDTO;
 import woosap.Pepple.dto.UserDTO;
 import woosap.Pepple.dto.UserRoomDTO;
 import woosap.Pepple.entity.Room;
@@ -26,5 +27,7 @@ public interface RoomService {
     public void removeRoom(long roomId);
 
     public void leaveRoom(UserRoomDTO userRoomDTO);
+
+    public RoomDTO getRoomDetails(long roomId);
 
 }

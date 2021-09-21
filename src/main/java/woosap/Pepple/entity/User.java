@@ -41,6 +41,6 @@ public class User {
     @Column
     private String profile;
 
-    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "user", fetch = FetchType.EAGER)
     private List<UserSNS> snsList;
 }

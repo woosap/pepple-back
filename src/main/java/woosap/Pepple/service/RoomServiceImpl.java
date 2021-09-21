@@ -2,12 +2,15 @@ package woosap.Pepple.service;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 import javax.transaction.Transactional;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import woosap.Pepple.dto.RoomDTO;
+import woosap.Pepple.dto.RoomDetailsDTO;
 import woosap.Pepple.dto.UserRoomDTO;
 import woosap.Pepple.entity.Room;
 import woosap.Pepple.entity.RoomType;
@@ -18,6 +21,7 @@ import woosap.Pepple.repository.RoomTypeRepository;
 import woosap.Pepple.repository.UserRoomRepository;
 
 @Service
+@Slf4j
 public class RoomServiceImpl implements RoomService {
 
     private final RoomRepository roomRepository;
@@ -107,5 +111,15 @@ public class RoomServiceImpl implements RoomService {
             return false;
         }
         return true;
+    }
+
+    @Override
+    public RoomDTO getRoomDetails(long roomId) {
+        Optional<Room> roomInfo = roomRepository.findByRoomId(roomId);
+        if (roomInfo.isEmpty()) {
+            log.error("Wrong roomId : {}", roomId);
+            throw new RuntimeException("잘못된 roomId: " + roomId);
+        }
+        return Room.entityToDto(roomInfo.get());
     }
 }

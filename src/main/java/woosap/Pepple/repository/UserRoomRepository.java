@@ -1,5 +1,6 @@
 package woosap.Pepple.repository;
 
+import java.util.List;
 import java.util.Optional;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
@@ -11,6 +12,7 @@ public interface UserRoomRepository extends JpaRepository<UserRoom, Long> {
 
     int countByRoomId(long roomId);
     boolean existsByRoomId(long roomId);
+    List<UserRoom> findAllByRoomId(long roomId);
 
     @Modifying
     @Query("DELETE FROM UserRoom u WHERE u.roomId = ?1 AND u.userId = ?2")
