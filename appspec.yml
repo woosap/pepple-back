@@ -1,8 +1,8 @@
 version: 0.0
 os: linux
 files:
-  - source:  /temp
-    destination: /home/ec2-user
+  - source:  /
+    destination: /home/ec2-user/deploy
     overwrite: yes
 
 permissions:
@@ -13,6 +13,6 @@ permissions:
 
 hooks:
   ApplicationStart:
-    - location: deploy/deploy.sh
+    - location: scripts/deploy.sh
       timeout: 60
       runas: ec2-user
