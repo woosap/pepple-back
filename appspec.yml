@@ -1,7 +1,7 @@
 version: 0.0
 os: linux
 files:
-  - source:  /
+  - source:  /temp
     destination: /home/ec2-user
     overwrite: yes
 
