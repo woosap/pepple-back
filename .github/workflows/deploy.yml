@@ -22,4 +22,4 @@ jobs:
         aws-region: ap-northeast-2
 
     - name: Code Deploy
-      run: aws deploy create-deployment --application-name pepple --deployment-config-name CodeDeployDefault.OneAtATime --deployment-group-name pepple
+      run: aws deploy create-deployment --application-name pepple-backend --deployment-config-name CodeDeployDefault.OneAtATime --deployment-group-name pepple
