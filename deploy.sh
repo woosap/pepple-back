@@ -22,13 +22,13 @@ fi
 
 echo ">새 에플리케이션 배포"
 
-git pull
-
-echo "> git pull"
-
 sleep 3
 
 cd $SRC_DIR
+
+git pull
+
+echo "> git pull"
 
 echo "빌드 시작"
 
