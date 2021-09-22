@@ -22,4 +22,4 @@ jobs:
         aws-region: ap-northeast-2
 
     - name: Code Deploy
-      run: aws deploy create-deployment --application-name pepple-backend --deployment-config-name CodeDeployDefault.OneAtATime --deployment-group-name pepple --github-location repository=https://github.com/woosap/pepple-back,commitId=${GITHUB_SHA}
+      run: aws deploy create-deployment --application-name pepple-backend --deployment-config-name CodeDeployDefault.OneAtATime --deployment-group-name pepple --github-location repository=/woosap/pepple-back,commitId=${GITHUB_SHA}
