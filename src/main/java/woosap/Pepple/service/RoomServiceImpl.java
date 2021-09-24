@@ -55,7 +55,7 @@ public class RoomServiceImpl implements RoomService {
     }
 
     @Override
-    public void createRoom(RoomDTO roomDTO) {
+    public long createRoom(RoomDTO roomDTO) {
         Room room = new Room();
         room.setTitle(roomDTO.getTitle());
         room.setSubTitle(roomDTO.getSubTitle());
@@ -69,6 +69,7 @@ public class RoomServiceImpl implements RoomService {
             .collect(Collectors.toList());
         roomTypeRepository.saveAll(roomTypeList);
 
+        return savedRoom.getRoomId();
     }
 
     @Override

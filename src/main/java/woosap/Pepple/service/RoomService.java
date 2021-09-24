@@ -16,7 +16,7 @@ public interface RoomService {
 
     public Boolean checkCapacity(UserRoomDTO userRoomDTO);
 
-    public void createRoom(RoomDTO roomDTO);
+    public long createRoom(RoomDTO roomDTO);
 
     public UserRoom enterRoom(UserRoomDTO userRoomDTO);
 

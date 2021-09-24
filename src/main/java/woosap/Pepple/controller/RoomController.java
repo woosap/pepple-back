@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 import woosap.Pepple.dto.ResponseDTO;
 import woosap.Pepple.dto.RoomDTO;
 import woosap.Pepple.dto.RoomDetailsDTO;
+import woosap.Pepple.dto.RoomIdDTO;
 import woosap.Pepple.dto.UserDTO;
 import woosap.Pepple.dto.UserRoomDTO;
 import woosap.Pepple.entity.Room;
@@ -51,7 +52,8 @@ public class RoomController {
                 HttpStatus.CONFLICT);
         }
         roomService.createRoom(roomInfo);
-        return new ResponseEntity<>(new ResponseDTO("방을 만들었습니다", true), HttpStatus.CREATED);
+        long roomId = roomService.createRoom(roomInfo);
+        return new ResponseEntity<>(new RoomIdDTO(roomId), HttpStatus.CREATED);
     }
 
     @PostMapping("/leave")
