@@ -51,7 +51,6 @@ public class RoomController {
             return new ResponseEntity<>(new ResponseDTO("사용 중인 방 제목입니다", false),
                 HttpStatus.CONFLICT);
         }
-        roomService.createRoom(roomInfo);
         long roomId = roomService.createRoom(roomInfo);
         return new ResponseEntity<>(new RoomIdDTO(roomId), HttpStatus.CREATED);
     }
