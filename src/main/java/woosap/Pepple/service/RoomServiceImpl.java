@@ -85,6 +85,8 @@ public class RoomServiceImpl implements RoomService {
     public void removeRoom(long roomId) {
         Room room = roomRepository.findByRoomId(roomId)
             .orElseThrow(RuntimeException::new);
+        roomTypeRepository.deleteByRoomId(roomId);
+        room.setCategory(null);
         roomRepository.delete(room);
     }
 

@@ -49,7 +49,7 @@ public class Room {
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime date; // 생성 시간 : 년월일 시분초
 
-    @OneToMany(mappedBy = "room", fetch = FetchType.EAGER, orphanRemoval = true, cascade = CascadeType.REMOVE)
+    @OneToMany(mappedBy = "room", fetch = FetchType.EAGER, orphanRemoval = true, cascade = CascadeType.ALL)
     private List<RoomType> category; // 카테고리
 
     @Column(name = "capacity")
