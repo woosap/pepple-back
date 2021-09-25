@@ -6,6 +6,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Vector;
 import java.util.stream.Collectors;
+import javax.persistence.CascadeType;
 import javax.persistence.CollectionTable;
 import javax.persistence.Column;
 import javax.persistence.ElementCollection;
@@ -48,7 +49,7 @@ public class Room {
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime date; // 생성 시간 : 년월일 시분초
 
-    @OneToMany(mappedBy = "room", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "room", fetch = FetchType.EAGER, orphanRemoval = true, cascade = CascadeType.REMOVE)
     private List<RoomType> category; // 카테고리
 
     @Column(name = "capacity")
