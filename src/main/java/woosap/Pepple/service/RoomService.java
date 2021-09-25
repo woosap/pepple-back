@@ -87,7 +87,7 @@ public class RoomService {
     private void removeRoom(long roomId) {
         Room room = roomRepository.findByRoomId(roomId)
             .orElseThrow(RuntimeException::new);
-        roomTypeRepository.deleteByRoomId(roomId);
+        roomTypeRepository.deleteByRoom(room);
         //room.setCategory(null);
         roomRepository.delete(room);
     }
