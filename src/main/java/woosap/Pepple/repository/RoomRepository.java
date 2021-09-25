@@ -10,10 +10,10 @@ import woosap.Pepple.entity.Room;
 
 public interface RoomRepository extends JpaRepository<Room, String> {
 
-    public Boolean existsByTitle(String title);
+    Boolean existsByTitle(String title);
 
     Optional<Room> findByRoomId(long roomId);
 
-    @Query("SELECT r FROM Room r JOIN FETCH r.category ORDER BY r.date DESC")
+    @Query("SELECT r FROM Room r ORDER BY r.date DESC")
     List<Room> findAllWithRoomType(Pageable pageable);
 }

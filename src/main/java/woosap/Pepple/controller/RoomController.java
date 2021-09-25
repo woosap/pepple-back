@@ -18,10 +18,11 @@ import woosap.Pepple.dto.ResponseDTO;
 import woosap.Pepple.dto.RoomDTO;
 import woosap.Pepple.dto.RoomDetailsDTO;
 import woosap.Pepple.dto.RoomIdDTO;
+import woosap.Pepple.dto.RoomWithUserImageDTO;
 import woosap.Pepple.dto.UserDTO;
 import woosap.Pepple.dto.UserRoomDTO;
 import woosap.Pepple.entity.Room;
-import woosap.Pepple.service.RoomServiceImpl;
+import woosap.Pepple.service.RoomService;
 import woosap.Pepple.service.UserService;
 
 @RestController
@@ -30,7 +31,7 @@ import woosap.Pepple.service.UserService;
 @RequestMapping("/room")
 public class RoomController {
 
-    private final RoomServiceImpl roomService;
+    private final RoomService roomService;
     private final UserService userService;
 
     @PostMapping("/enter")
@@ -63,15 +64,11 @@ public class RoomController {
     }
 
     @GetMapping
-    public ResponseEntity<List<RoomDTO>> getRooms(Pageable page) {
+    public ResponseEntity<List<RoomWithUserImageDTO>> getRooms(Pageable page) {
         log.info("getRooms called");
         log.info("page is {}", page);
-        List<Room> roomsWithPage = roomService.getRoomsWithPage(page);
-        List<RoomDTO> rooms = roomsWithPage
-            .stream()
-            .map(roomEntity -> roomEntity.entityToDto(roomEntity))
-            .collect(Collectors.toList());
-        return new ResponseEntity<>(rooms, HttpStatus.OK);
+        List<RoomWithUserImageDTO> result = roomService.getRoomsWithUserImages(page);
+        return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
     @GetMapping("/{roomId}")

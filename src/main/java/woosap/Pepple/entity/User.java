@@ -29,7 +29,6 @@ public class User {
     @Column(name = "user_id")
     private String userId;
 
-    // nickname -> should not be same
     @Column(nullable = false, unique = true)
     private String nickname;
 

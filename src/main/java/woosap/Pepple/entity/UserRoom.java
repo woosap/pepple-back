@@ -25,4 +25,5 @@ public class UserRoom {
     @Column(nullable = false)
     private long roomId;
 
+    private String imageUrl;
 }
