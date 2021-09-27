@@ -3,6 +3,7 @@ package woosap.Pepple.security;
 import javax.servlet.http.HttpServletRequest;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
+import woosap.Pepple.dto.agora.AgoraAppInfo;
 
 @Service
 public interface TokenService {
@@ -21,4 +22,5 @@ public interface TokenService {
 
     // 토큰의 유효성 및 만료일자 확인
     boolean validToken(String jwtToken);
+
 }
