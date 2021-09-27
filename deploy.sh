@@ -1,10 +1,12 @@
 #!/bin/bash
 
-SRC_DIR=/home/ec2-user/pepple
+HOME_DIR=/home/ec2-user
 
-JAR_DIR=/home/ec2-user/pepple/build/libs
+SRC_DIR=$HOME_DIR/pepple
 
-LOG_DIR=/home/ec2-user/logs
+JAR_DIR=$HOME_DIR/pepple/build/libs
+
+LOG_DIR=$HOME_DIR/logs
 
 PROJECT_NAME=Pepple
 
@@ -32,7 +34,7 @@ echo "> git pull"
 
 echo "빌드 시작"
 
-sh ./gradlew
+sh ./gradlew clean bootjar
 
 sleep 3
 
