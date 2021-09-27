@@ -5,7 +5,7 @@ plugins {
 }
 
 group = 'woosap'
-version = '1.0.0'
+version = '1.0.1'
 sourceCompatibility = '11'
 
 configurations {
@@ -33,6 +33,7 @@ dependencies {
 
 	implementation group: 'io.agora.rtc', name: 'full-sdk', version: '3.3.0'
 	implementation group: 'io.agora', name: 'authentication', version: '1.6.1'
+	implementation group: 'commons-codec', name: 'commons-codec', version: '1.11'
 
 
 

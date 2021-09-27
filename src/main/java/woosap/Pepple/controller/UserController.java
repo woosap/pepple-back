@@ -63,7 +63,7 @@ public class UserController {
     }
 
     @PostMapping("/agoraToken")
-    public ResponseEntity<TokenDTO> getAgoraAuthToken(AgoraTokenDTO agoraTokenDTO) {
+    public ResponseEntity<TokenDTO> getAgoraAuthToken(@RequestBody AgoraTokenDTO agoraTokenDTO) {
         log.info("/agoraToken called");
         TokenDTO result = agoraService.getAgoraAuthToken(agoraTokenDTO);
         return new ResponseEntity<>(result, HttpStatus.OK);

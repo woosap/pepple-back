@@ -32,7 +32,7 @@ echo "> git pull"
 
 echo "빌드 시작"
 
-sh ./gradlew bootjar
+sh ./gradlew
 
 sleep 3
 

@@ -20,6 +20,7 @@ public class AgoraService {
     private final int expirationTimeSeconds = 3600 * 6; // 6 hours
 
     public TokenDTO getAgoraAuthToken(AgoraTokenDTO agoraTokenDTO) {
+        log.info("Token dto is {}", agoraTokenDTO);
         RtcTokenBuilder tokenBuilder = new RtcTokenBuilder();
         int timeStamp = (int)(System.currentTimeMillis() / 1000 + expirationTimeSeconds);
         String result = tokenBuilder.buildTokenWithUserAccount(

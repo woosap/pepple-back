@@ -3,7 +3,6 @@ package woosap.Pepple.security;
 import javax.servlet.http.HttpServletRequest;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
-import woosap.Pepple.dto.agora.AgoraAppInfo;
 
 @Service
 public interface TokenService {
