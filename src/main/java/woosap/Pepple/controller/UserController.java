@@ -15,8 +15,10 @@ import org.springframework.web.bind.annotation.RestController;
 import woosap.Pepple.dto.ResponseDTO;
 import woosap.Pepple.dto.TokenDTO;
 import woosap.Pepple.dto.UserDTO;
+import woosap.Pepple.dto.agora.AgoraTokenDTO;
 import woosap.Pepple.entity.User;
 import woosap.Pepple.security.TokenServiceImpl;
+import woosap.Pepple.service.AgoraService;
 import woosap.Pepple.service.UserServiceImpl;
 
 @RestController
@@ -26,6 +28,7 @@ public class UserController {
 
     private final UserServiceImpl userService;
     private final TokenServiceImpl tokenService;
+    private final AgoraService agoraService;
 
     @PostMapping("/user")
     @ApiOperation(value = "회원가입시 추가정보를 입력", notes = "성공시 토큰을 리턴합니다")
@@ -57,5 +60,12 @@ public class UserController {
             return new ResponseEntity<>("이미 사용중인 별명입니다", HttpStatus.CONFLICT);
         }
         return new ResponseEntity<>("사용 가능한 닉네임 입니다", HttpStatus.OK);
+    }
+
+    @PostMapping("/agoraToken")
+    public ResponseEntity<TokenDTO> getAgoraAuthToken(AgoraTokenDTO agoraTokenDTO) {
+        log.info("/agoraToken called");
+        TokenDTO result = agoraService.getAgoraAuthToken(agoraTokenDTO);
+        return new ResponseEntity<>(result, HttpStatus.OK);
     }
 }
