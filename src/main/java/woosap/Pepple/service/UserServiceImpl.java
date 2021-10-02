@@ -1,33 +1,30 @@
 package woosap.Pepple.service;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import woosap.Pepple.dto.UserDTO;
 import woosap.Pepple.entity.User;
 import woosap.Pepple.entity.UserRoom;
 import woosap.Pepple.entity.UserSNS;
+import woosap.Pepple.repository.RoomRepository;
 import woosap.Pepple.repository.UserRepository;
 import woosap.Pepple.repository.UserRoomRepository;
 import woosap.Pepple.repository.UserSNSRepository;
 
 @Service
 @Slf4j
+@RequiredArgsConstructor
 public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
     private final UserSNSRepository userSNSRepository;
     private final UserRoomRepository userRoomRepository;
+    private final RoomRepository roomRepository;
 
-    public UserServiceImpl(UserRepository userRepository,
-        UserSNSRepository userSNSRepository,
-        UserRoomRepository userRoomRepository) {
-        this.userRepository = userRepository;
-        this.userSNSRepository = userSNSRepository;
-        this.userRoomRepository = userRoomRepository;
-    }
 
     @Override
     public User join(User user, UserDTO userDTO) {
@@ -83,11 +80,12 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public List<UserDTO> getUserDetails(long roomId) {
-        List<UserRoom> userRoomIds = userRoomRepository.findAllByRoomId(roomId);
+        Set<UserRoom> userRoomIds = roomRepository.findByRoomId(roomId)
+                                    .get().getUserRoom();
 
         List<UserDTO> userDetails = userRoomIds
             .stream()
-            .map(userRoom -> userRoom.getUserId())
+            .map(UserRoom::getUserId)
             .map(userId -> userRepository.findById(userId).get())
             .map(user -> UserDTO.builder()
                 .userId(user.getUserId())
@@ -95,7 +93,7 @@ public class UserServiceImpl implements UserService {
                 .job(user.getJob())
                 .nickname(user.getNickname())
                 .profile(user.getProfile())
-                .snsList(user.getSnsList().stream().map(sns -> sns.getSns())
+                .snsList(user.getSnsList().stream().map(UserSNS::getSns)
                     .collect(Collectors.toList()))
                 .build())
             .collect(Collectors.toList());

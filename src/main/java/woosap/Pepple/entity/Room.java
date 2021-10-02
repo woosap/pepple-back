@@ -4,6 +4,7 @@ import java.security.Provider.Service;
 import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 import java.util.Vector;
 import java.util.stream.Collectors;
 import javax.persistence.CascadeType;
@@ -55,6 +56,9 @@ public class Room {
     @Column(name = "capacity")
     @NotNull
     private int capacity; // 방 입장 제한인원수
+
+    @OneToMany(mappedBy = "room", fetch = FetchType.EAGER, orphanRemoval = true, cascade = CascadeType.ALL)
+    private Set<UserRoom> userRoom; // 반정규화 테이블, 방의 유저들의 프로필사진 칼럼만 있음.
 
     public static RoomDTO entityToDto(Room room) {
         return RoomDTO.builder()

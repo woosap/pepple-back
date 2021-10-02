@@ -49,9 +49,9 @@ public class RoomService {
     }
 
     public Boolean checkCapacity(UserRoomDTO userRoomDTO) {
-        int peopleCount = userRoomRepository.countByRoomId(userRoomDTO.getRoomId());
         Room room = roomRepository.findByRoomId(userRoomDTO.getRoomId())
-            .orElseThrow(RuntimeException::new);
+            .orElseThrow(()-> new RuntimeException("cannot find Room with room id " + userRoomDTO.getRoomId()));
+        int peopleCount = userRoomRepository.countByRoom(room);
         if (room.getCapacity() > peopleCount) {
             return true;
         }
@@ -78,8 +78,9 @@ public class RoomService {
     public UserRoom enterRoom(UserRoomDTO userRoomDTO) {
         UserRoom userRoom = new UserRoom();
         User user = userRepository.findById(userRoomDTO.getUserId()).get();
+        Room room = roomRepository.findByRoomId(userRoomDTO.getRoomId()).get();
         userRoom.setUserId(userRoomDTO.getUserId());
-        userRoom.setRoomId(userRoomDTO.getRoomId());
+        userRoom.setRoom(room);
         userRoom.setImageUrl(user.getImageUrl());
         return userRoomRepository.save(userRoom);
     }
@@ -96,9 +97,10 @@ public class RoomService {
     public void leaveRoom(UserRoomDTO userRoomDTO) {
         long roomId = userRoomDTO.getRoomId();
         String userId = userRoomDTO.getUserId();
-        userRoomRepository.leaveUserFromRoom(roomId, userId);
+        userRoomRepository.leaveUserFromRoom(userId);
+        Room room = roomRepository.findByRoomId(roomId).get();
         // 방에 사람이 없을 경우 -> 다 나간 케이스 -> 삭제
-        if (!userRoomRepository.existsByRoomId(roomId)) {
+        if (!userRoomRepository.existsByRoom(room)) {
             removeRoom(roomId);
         }
     }
@@ -111,8 +113,7 @@ public class RoomService {
 
         roomlist.forEach(room -> {
             RoomWithUserImageDTO toAdd = this.convert(room);
-            List<UserRoom> userList = userRoomRepository.findAllByRoomId(room.getRoomId());
-            List<String> userImageUrls = userList.stream().map(user -> user.getImageUrl())
+            List<String> userImageUrls = room.getUserRoom().stream().map(user -> user.getImageUrl())
                 .collect(Collectors.toList());
             toAdd.setImageUrl(userImageUrls);
             result.add(toAdd);
