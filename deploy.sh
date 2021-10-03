@@ -24,7 +24,7 @@ fi
 
 echo ">새 에플리케이션 배포"
 
-sleep 3
+sleep 1
 
 cd $SRC_DIR
 
