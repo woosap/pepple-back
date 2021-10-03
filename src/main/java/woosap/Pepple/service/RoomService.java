@@ -112,9 +112,11 @@ public class RoomService {
         List<Room> roomlist = roomRepository.findAllWithRoomType(page);
 
         roomlist.forEach(room -> {
+            //category join으로 발생하는 중복 제거
+            room.setCategory(room.getCategory().stream().distinct().collect(Collectors.toList()));
             RoomWithUserImageDTO toAdd = this.convert(room);
             List<String> userImageUrls = room.getUserRoom().stream().map(user -> user.getImageUrl())
-                .collect(Collectors.toList());
+                .distinct().collect(Collectors.toList());
             toAdd.setImageUrl(userImageUrls);
             result.add(toAdd);
         });
