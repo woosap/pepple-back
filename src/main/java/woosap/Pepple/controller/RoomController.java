@@ -22,6 +22,7 @@ import woosap.Pepple.dto.RoomWithUserImageDTO;
 import woosap.Pepple.dto.UserDTO;
 import woosap.Pepple.dto.UserRoomDTO;
 import woosap.Pepple.entity.Room;
+import woosap.Pepple.entity.UserRoom;
 import woosap.Pepple.service.RoomService;
 import woosap.Pepple.service.UserService;
 
@@ -41,7 +42,10 @@ public class RoomController {
             return new ResponseEntity<>(new ResponseDTO("입장 인원을 초과하였습니다", false),
                 HttpStatus.CONFLICT);
         }
-        roomService.enterRoom(userRoomInfo);
+        UserRoom result = roomService.enterRoom(userRoomInfo);
+        if (result == null) {
+            return new ResponseEntity<>(new ResponseDTO("방 하나에만 입장 가능합니다.", true), HttpStatus.CONFLICT);
+        }
         return new ResponseEntity<>(new ResponseDTO("방에 입장했습니다.", true), HttpStatus.OK);
     }
 

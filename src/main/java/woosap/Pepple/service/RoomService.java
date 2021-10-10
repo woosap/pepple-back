@@ -79,6 +79,9 @@ public class RoomService {
         UserRoom userRoom = new UserRoom();
         User user = userRepository.findById(userRoomDTO.getUserId()).get();
         Room room = roomRepository.findByRoomId(userRoomDTO.getRoomId()).get();
+        if (userRoomRepository.existsByUser(user)) {
+            return null;
+        }
         userRoom.setUserId(userRoomDTO.getUserId());
         userRoom.setRoom(room);
         userRoom.setImageUrl(user.getImageUrl());
