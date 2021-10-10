@@ -4,14 +4,13 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import woosap.Pepple.entity.Room;
-import woosap.Pepple.entity.User;
 import woosap.Pepple.entity.UserRoom;
 
 public interface UserRoomRepository extends JpaRepository<UserRoom, Long> {
 
     int countByRoom(Room room);
     boolean existsByRoom(Room room);
-    boolean existsByUser(User user);
+    boolean existsByUserId(String userId);
 
     @Modifying
     @Query("DELETE FROM UserRoom u WHERE u.userId = ?1")
