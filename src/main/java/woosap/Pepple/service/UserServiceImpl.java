@@ -1,5 +1,6 @@
 package woosap.Pepple.service;
 
+import java.util.Comparator;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -83,7 +84,11 @@ public class UserServiceImpl implements UserService {
         Set<UserRoom> userRoomIds = roomRepository.findByRoomId(roomId)
                                     .get().getUserRoom();
 
-        List<UserDTO> userDetails = userRoomIds
+        List<UserRoom> sortedByOrder = userRoomIds.stream()
+            .sorted(Comparator.comparing(UserRoom::getUserRoomId))
+            .collect(Collectors.toList());
+
+        return sortedByOrder
             .stream()
             .map(UserRoom::getUserId)
             .map(userId -> userRepository.findById(userId).get())
@@ -97,6 +102,5 @@ public class UserServiceImpl implements UserService {
                     .collect(Collectors.toList()))
                 .build())
             .collect(Collectors.toList());
-        return userDetails;
     }
 }
