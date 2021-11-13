@@ -2,19 +2,15 @@
 
 ### 사용 스택
 
-Java 11
+##### Java 11
+##### MySQL 8
+##### Spring Data JPA
+##### JWT
+##### Spring Security
 
-MySQL 8
+### 1. 실행방법
 
-Spring Data JPA
-
-JWT
-
-Spring Security
-
-### 실행방법
-
-1. application.yml 파일 추가
+#### application.yml 파일 추가
 
 ```yml
 spring:
@@ -86,21 +82,22 @@ agora api에서 제공하는 appId 및 certificate를 입력해줍니다.
 
 jwt 생성시, 사용할 secret_key를 입력해줍니다.
 
-2. 실행
+
+#### 2. 실행
 
 > ./gradlew bootRun
 
-3. DB 구성
+#### 3. DB 구성
 
 ![db.png](./db.png)
 
-4. API 명세
+#### 4. API 명세
 
 > https://pepple.social/swagger-ui.html
 > 
 > 혹은
 > 실행 후 http://localhost:8080/swagger-ui.html
 
-5. 프로젝트 관련 내용
+#### 5. 프로젝트 관련 내용
 
 > https://www.notion.so/Project-Pepple-7fcbf17c56e4455fac90c6999815c08c
